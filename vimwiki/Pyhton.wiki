@@ -1,0 +1,15 @@
+= Python Useful codes =
+
+* [[OS-Library]] -- Here you can use the os library to point the path of the current folder
+* [[Pandas]] -- Here is the codes for Pandas
+* [[Streamlit]] - streamlit
+* [[matplotlib]] - matplotlib
+* [[Plotly]] -  graphs
+* [[sklearn]] - sklearn for ML
+* [[FillDatabase]]
+* [[statemodels]]
+* [[MachineLearning]]
+* [[Virtual]]
+
+watch this for several projects
+https://www.youtube.com/watch?v=JwSS70SZdyM

@@ -1,0 +1,12 @@
+
+
+This add on to vim made it possible to highlight the words under the courser while updating 
+
+See below link to know about it and if you need to  remove it in future.
+
+Note: it was not thought the Plug and was using the direct installation 
+
+https://github.com/RRethy/vim-illuminate
+
+
+tag: vim, words highlights, highlight other words

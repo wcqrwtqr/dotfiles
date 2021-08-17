@@ -1,0 +1,95 @@
+# [[Helper_functions]]
+# [[ARIMA]] Mode
+# [[SARIMA]] full example
+
+==Taking the difference in the data by subtracting the previous value==
+
+{{{ python
+from statsmodels.tsa.statespace.tools import diff
+df2 = pd.read_csv('../Data/samples.csv', index_col=0, parse_dates=True)
+df.index.freq= 'MS'
+
+# the hard way
+# df2['b'] - df2['b'].shift(1)
+
+# the model way
+diff(df2['b'], k_diff=1).plot()
+}}}
+
+
+
+===Causality using grangercausalitytest===
+- This will test two columns and return if there is any causality between them or not
+- Use the number of maxlag to go through the data several times and see if there is any 
+  direct relation between them or not
+  
+{{{python
+from statsmodels.tsa.stattools import  grangercausalitytests
+print(grangercausalitytests(df3[['b','d']], maxlag=9 ))
+
+}}}
+
+
+
+
+=== To graph the data over months and see its mean or over the Q  ===
+
+
+{{{python
+from statsmodels.graphics.tsaplots import  month_plot, quarter_plot
+
+# here will reample the DF to be in quarter instead of months
+dfq = df1['Thousands of Passengers'].resample('Q').mean()
+
+month_plot(df1['Thousands of Passengers'])
+quarter_plot(dfq)
+plt.show()
+}}}
+
+
+=== Using pmdarima to figure out the best ARMIA order to use for the analysis ===
+# Stationary and non seasonal data
+This will show you a table of best order for the auto arima modeling
+Best used for stationary data sets
+{{{python
+# pip install pmdarima
+
+from pmdarima import auto_arima
+stepwise_fit = auto_arima(df2['Births'], start_p=0, start_q=0, max_p=6,
+max_q=3, seasonal=False, trace=True)
+
+print(stepwise_fit.summary())
+}}}
+
+
+# Non-Stationary and seasonal data
+
+{{{python
+# add the m value to the number of seasons availble
+# in this data the m was for 12 months as the data was on monthly period
+# add the seasonal as true
+stepwise_fit = auto_arima(df1['Thousands of Passengers'], start_p=0, start_q=0,
+                          max_p=4, max_q=4, seasonal=True, trace=True, m=12)
+print(stepwise_fit.summary())
+}}}
+
+
+===To plot the 4 figures plot for trend, seasonal & residual ===
+This will show the trend, and if there is a seasonal fluctuation or not and will 
+plot the residual as well
+
+{{{python
+from statsmodels.tsa.seasonal import seasonal_decompose
+result = seasonal_decompose(df3['Inventories'], model='add')
+result.plot()
+}}}
+
+
+=== How to split data quickly===
+{{{python
+nobs = 12 # Number of observations
+train = df_transformed[:-nobs]
+test = df_transformed[-nobs:]
+}}}
+
+

@@ -1,0 +1,17 @@
+=Create virtual environment=
+
+The commands below will create a new env with the name we choose, then after activating it we can install the requirements using the command 
+
+{{{bash
+" Installing the env 
+pip install virtualenv
+" Making the env and but its name
+virtualenv [name_of_your_project]
+" Activaiting the env
+name_of_your_project/bin/activate
+" Installing the requirements
+pip3 install -r requirements
+" Deactivating the env
+deactivate
+}}}
+

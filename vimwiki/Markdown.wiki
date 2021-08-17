@@ -1,0 +1,37 @@
+=Mark down template=
+
+To make the markdown file in order to convert it to a great pdf file you need the following
+1. Create a file with .md extention
+2. In the file make the initial heater as below
+{{{yaml
+---
+title: "Sales Benefit"
+author:
+  - Mohammed Salah Albatati
+  - Huda Albatati
+date: 12 Mar 21
+header: This is nice
+footer: so nice
+numbersections: true
+---
+  }}}
+3. Full in your document as you want but use the other type of markdown shortcuts
+
+_Note: I did not find a way to add the footers on each page yet_
+
+4. Use the command to convert to pdf
+
+{{{bash
+pandoc file.md -o file.pdf
+}}}
+
+----
+Notes:
+- I've made the binding for space pc to compile to pdf and save it to /usr/tem/
+- Space pp to open the pdf file 
+* To add images to the pdf and resize it use the below code
+{{{markdwon
+![image](http://www.canadianflowerdelivery.com/assets/images/content/iris_195x195.jpg){width=20%}
+}}}
+
+

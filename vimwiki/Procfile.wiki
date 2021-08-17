@@ -1,0 +1,9 @@
+=Procfile configuration=
+
+==How to run the streamlit to Heroku==
+
+Inside the file write the following:
+{{{
+web: sh setup.sh && streamlit run appname.py
+}}}
+

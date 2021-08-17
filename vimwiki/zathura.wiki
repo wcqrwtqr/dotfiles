@@ -1,0 +1,162 @@
+
+
+https://defkey.com/zathura-shortcuts
+
+Check this well site to see the key bindings for zathura
+
+tags: key bindings , hot key, zathura, 
+
+
+J	Go to next page
+
+or Page Down		
+
+K	Go to previous page
+
+or Page Up		
+H	Scroll to the left, down, up or right direction
+
+or K		
+or J		
+or L		
+or ← ↑ → ↓		
+
+Ctrl + T	Scroll a half page left, down, up or right
+
+or Ctrl + D		
+or Ctrl + U		
+or Ctrl + Y		
+T	Scroll a full page left, down, up or right
+
+or Ctrl + F		
+or Ctrl + B		
+or Space		
+or ↑   Shift + Space		
+or Y		
+G then G	Goto to the first page
+
+↑   Shift + G	Go to last page
+
+N then ↑   Shift + G	Go to a specific page
+
+↑   Shift + H	Go to top of the current page
+
+↑   Shift + L	Go to bottom of the current page
+
+Ctrl + O	Move backward through the jump list
+
+Ctrl + I	Move forward through the jump list
+
+Ctrl + J	Bisect forward and backward between the last two jump points
+
+or Ctrl + K		
+Ctrl + C	Abort
+
+or Esc		
+A	Adjust window in best-fit or width mode
+
+or S		
+/	Search for text
+
+or ?		
+N	Search for the next result
+
+↑   Shift + N	Search for the previous result
+
+O	Open document
+
+or ↑   Shift + O		
+F	Follow links
+
+↑   Shift + F	Display link target
+
+:	Enter command
+
+R	Rotate by 90 degrees
+
+Ctrl + R	Recolor (grayscale and invert colors)
+
+↑   Shift + R	Reload document
+
+ Tab	Show index and switch to Index mode
+
+D	Toggle dual page view
+
+F5	Switch to presentation mode
+
+F11	Switch to fullscreen mode
+
+Ctrl + M	Toggle inputbar
+
+Ctrl + N	Toggle statusbar
+
++	Zoom in
+
+-	Zoom out
+
+=	Zoom to the original size
+
+Z then I	Zoom in
+
+Z then O	Zoom out
+
+Z then 0	Zoom to the original size
+
+N then =	Zoom to size n
+
+M then ↑   Shift + X	Set a quickmark to a letter or number X
+
+' then ↑   Shift + X	Goto quickmark saved at letter or number X
+
+Q	Quit
+
+ Fullscreen mode (19 shortcuts)
+ 
+J	Go to next or previous page
+
+or K		
+Space	Scroll a full page
+
+↑   Shift + Space	Scroll down
+
+ Backspace	Scroll up
+
+G then G	Go to the first page
+
+↑   Shift + G	Go to the last page
+
+N then ↑   Shift + G	Go to a specific page
+
+Ctrl + C	Abort
+
+or Esc		
+F11	Switch to normal mode
+
++	Zoom in
+
+-	Zoom out
+
+=	Zoom to the original size
+
+Z then I	Zoom in
+
+Z then O	Zoom out
+
+Z then 0	Zoom to the original size
+
+N then =	Zoom to size n
+
+Q	Quit
+
+Presentation mode (7 shortcuts)
+Space	Scroll a full page
+
+↑   Shift + Space	Scroll down
+
+ Backspace	Scroll up
+
+Ctrl + C	Abort
+
+or Esc		
+F5	Switch to normal mode
+

@@ -1,0 +1,41 @@
+Here is some good commands for vim
+
+* [[Limelight]]
+* [[Goyo]]
+* [[Markdown]]
+* [[vim-latex-live-preview]] 
+
+== Best commands for vim ==
+- For copying the hole line from the codes use the below code 
+{{{
+:g/your_word_of_search . / t2 
+t2 refer to copy all the lines found to line 2
+}}}
+
+    
+== Best commands for vim ==
+- (g q then down motion) to help cut or split a long line and spread it to several lines fit  
+- (linesnum g _) goes down x linenum then puts the courser at the end of the line
+- (g v) help re-highlight a selected lines or words again after you left it
+- (g i) put you back to the last spot of insert location 
+
+# Below link for the best cheat sheet for vim than include all the needed actions
+[[https://vim.rtorr.com| Cheat sheet website]]
+
+| I loved this table | Nice             | for demo purpose |
+|--------------------|------------------|------------------|
+| Try this           | This is not nice |                  |
+|--------------------|------------------|------------------|
+| Here is            | I need this      |                  |
+|--------------------|------------------|------------------|
+
+
+* [[Plugs]] - info about some plugs
+
+" Kite autocomplete for completion preview
+" set completeopt+=menuone
+" set completeopt+=noselect
+" set completeopt+=preview
+" autocmd CompleteDone * if !pumvisible() | pclose | endif
+" set belloff+=ctrlg  " if vim beeps during completion
+

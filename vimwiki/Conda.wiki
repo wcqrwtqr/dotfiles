@@ -1,0 +1,32 @@
+=Here is the code for conda=
+
+ * *conda info --envs* # Check for the current env
+ * *conda deactivate* # Deactivate the env
+ * *conda activate myDjangoEnv* # Activate the env_named
+
+
+==How to create a new envirurment==
+- In terminal type
+
+{{{
+conda create -n env_name pyhton=x.x
+}}}
+
+- The terminal will ask for installing several libraries
+- Choose yes [y]
+
+=== Install the requirments ===
+
+- In terminal cd to the directory that contains the requirments.txt
+- In terminal type the code
+
+{{{
+pip3 install -r requirments.txt 
+}}}
+
+
+
+
+
+
+

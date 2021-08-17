@@ -1,0 +1,175 @@
+= Nice class code for getting ML going on a data frame =
+
+
+
+Data was taken from Kaggle : https://www.kaggle.com/atultyagi2000/stroke-prediction
+
+
+{{{python
+
+pd.set_option('display.max_columns', None)
+df = pd.read_csv('healthcare-dataset-stroke-data.csv')
+# Changing the values of gender to 0 Male and 1 female
+df['gender'] = df['gender'].map({'Male': 0, 'Female': 1, 'Other': 2})
+# Changing the values of married to 0 No and 1 Yes
+df['ever_married'] = df['ever_married'].map({'No': 0, 'Yes': 1})
+# Changing the values of residence to 0 Urban and 1 Rural
+df['Residence_type'] = df['Residence_type'].map({'Urban': 0, 'Rural': 1})
+# Changing the values of work type to 0 Private , 1 Self-employed , 2 Govt_job , 3 children , 4 Never_worked
+df['work_type'] = df['work_type'].map({'Private':0, 'Self-employed':1,'Govt_job':2,'children':3,'Never_worked':4})
+# Changing the values of smoking status to 'never smoked' 0 , 'smokes' 1 , 'formerly smoked' 2 , 'Unknown' 3
+df['smoking_status'] = df['smoking_status'].map({'never smoked': 0, 'smokes': 1, 'formerly smoked':2 , 'Unknown':3})
+bmi_mean = df['bmi'].mean()
+df['bmi'] = df['bmi'].fillna(bmi_mean)
+# roung the vlaues of age so it is not floating 
+df['age'] = df['age'].apply(lambda x:round(x))
+}}}
+
+* Data split
+
+{{{python
+# Split the data from and remove the column you are targeting
+	Y = data["stroke"]
+	X=data.drop(['stroke'] , axis=1)
+  }}}
+
+
+* class for the ML
+
+{{{python
+
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import CategoricalNB
+from sklearn.cluster import KMeans
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.preprocessing import StandardScaler
+from xgboost import XGBClassifier
+from sklearn.metrics import confusion_matrix, accuracy_score
+
+class evaluate_all_model:
+    import time
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.train_test_split()
+        self.define_models()
+        self.evaluate_model()
+        print("best model base on Accuracy")
+        print(self.best_model)
+
+    def train_test_split(self):
+        '''Split the data'''
+        self.X_train, self.X_test, self.y_train,self.y_test = train_test_split(self.x, self.y, test_size=0.33, random_state=3)
+        sc=StandardScaler()
+        self.X_train = sc.fit_transform(self.X_train)
+        self.X_test = sc.transform(self.X_test)
+
+    def define_models(self):
+        '''Define the models to start the ML'''
+        self.models = {'LogisticRegression': LogisticRegression(),
+                       'RandomForestClassifier': RandomForestClassifier(),
+                       'KNeighborsClassifier': KNeighborsClassifier(),
+                       'DecisionTreeClassifier': DecisionTreeClassifier(),
+                       'SupportVectorMachine': SVC(),
+                       'GaussianNB': GaussianNB(),
+                       'BernoulliNB': BernoulliNB(),
+                       'GradientBoostingClassifier': GradientBoostingClassifier()
+                       }
+
+        self.modelNames = ['LogisticRegression', 'RandomForestClassifier', 'KNeighborsClassifier',
+                           'DecisionTreeClassifier', 'SupportVectorMachine',
+                           'GaussianNB', 'BernoulliNB', 'GradientBoostingClassifier']
+        self.trainScores = []
+        self.testScores = []
+        self.Time_taken = []
+        self.best_model_score = 0
+        self.best_model = {}
+        self.less_time = 123
+
+
+    def evaluate_model(self):
+        '''Start evaluating the models'''
+        for i in self.models:
+            start = self.time.time()
+            model = self.models[i]
+            model.fit(self.X_train, self.y_train)
+            train_score = model.score(self.X_train, self.y_train)
+            self.trainScores.append(train_score)
+            print(f'Model:- {i}')
+            print(f'training score:- {train_score}')
+            test_score = model.score(self.X_test, self.y_test)
+            self.testScores.append(test_score)
+            print(f'test Score:- {test_score}')
+
+            y_predictions = model.predict(self.X_test)
+            conf_matrix = confusion_matrix(y_predictions, self.y_test)
+            print(f'Confussion Matrix: \n{conf_matrix}\n')
+
+            tn = conf_matrix[0,0]
+            fp = conf_matrix[0,1]
+            tp = conf_matrix[1,1]
+            fn = conf_matrix[1,0]
+            accuracy = (tp + tn) / (tp + fp + tn + fn)
+            precision = tp / (tp + fp)
+            recall = tp / (tp + fn)
+            f1score = 2 * precision * recall / (precision + recall)
+            specificity = tn / (tn + fp)
+            print(f'Accuracy : {accuracy}')
+            print(f'Precision: {precision}')
+            print(f'Recall   : {recall}')
+            print(f'F1 score : {f1score}')
+            print(f'Specificity : {specificity}')
+
+            end = self.time.time()
+            time_taken = end-start
+            self.Time_taken.append(time_taken)
+            print(f'Time required {end-start}')
+            print("***************************************************************************")
+            print("____________________________________________________________________________")
+            print("\n\n\n")
+            if(float(test_score)>self.best_model_score):
+                self.best_model["model Name"] = i
+                self.best_model["Time Required on train and test"] = time_taken
+                self.best_model["Accuracy on train data"] = train_score
+                self.best_model["Accuracy on test data"] = accuracy
+                self.best_model_score = test_score
+
+            if time_taken < self.less_time:
+                self.less_time = time_taken
+
+    def plot_bar(self):
+        '''Plotting code'''
+        plt.bar(np.arange(len(self.trainScores)), self.trainScores, color='blue', width=0.25, edgecolor='white', label='train')
+        plt.bar([x + 0.25 for x in np.arange(len(self.trainScores))], self.testScores, color='red', width=0.25, edgecolor='white', label='Test')
+        plt.xlabel('Models', fontweight='bold', size=24)
+        plt.ylabel('Scores', fontweight='bold', size=24)
+        plt.xticks([r - 0.25 for r in range(len(self.trainScores))], self.modelNames, rotation = 60)
+        plt.legend()
+        plt.show()
+
+    def get_data(self):
+        '''Get the data from the model run'''
+        self.temp_dict = {}
+        self.temp_dict["Model"] = self.modelNames
+        self.temp_dict["Training Score"] = self.trainScores
+        self.temp_dict["Accuracy on Test"] = self.testScores
+        self.temp_dict["Time Taken"] = self.Time_taken
+        return self.temp_dict
+
+    def get_dataframe(self):
+        '''Get the data frame values'''
+        return pd.DataFrame.from_dict(self.get_data()) 
+
+run_action = evaluate_all_model(X, Y)
+
+  }}}
+

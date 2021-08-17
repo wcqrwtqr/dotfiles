@@ -1,0 +1,44 @@
+=Useful commands for Bash=
+
+=== Create files and folders ===
+* Create several files at ones using the {} operator with ..
+To create a several files at once with numbers we use
+{{{Bash
+touch file_{01..10}.txt
+}}}
+Note: do not use spaces between
+
+To create several folders with month and year we can use the code below
+{{{Bash
+mkdir folder_{01..12}-{2018..2021} 
+}}}
+
+
+----
+=== Using Awk ===
+
+Awk can get the values of based on a columns number
+
+If I need to get the month from date value then I use the following command
+
+{{{Bash
+date| awk 'BEGIN {print "Mohammed"} {print $2}'
+}}}
+Result will be 
+{{{
+Mohammed ** This comes from the begin call
+Mar ** this comes from the 2nd column in date command
+}}}
+
+
+Below will print all the columsn except for the columns 2, 3 & 4
+{{{Bash
+awk '{$2=$3=$4="";print $0}' MPFM\ Data\ 4.txt| head
+}}}
+
+
+Count number of rows in file
+{{{Bash
+awk 'END{print NR}' MPFM\ Data\ 4.txt
+}}}
+

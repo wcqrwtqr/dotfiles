@@ -1,0 +1,15 @@
+
+
+Actions used for excel that will help speeding of workflow
+
+# How to add newline when concatenating multiple cells and keep them in multiple lines
+{{{
+& CHAR(10) &
+  }}}
+
+
+# How to show k for 1000 and M for 1000,000 in excel charts
+{{{VBA
+[>999999]$ #.00,,"M";#,"K"
+ }}}
+  

@@ -1,0 +1,13 @@
+Creating pipev
+
+- in the command line go to the folder and hit the following
+
+{{{Bash
+pipenv install xxx yyyy zzz etc
+}}}
+
+
+
+
+
+

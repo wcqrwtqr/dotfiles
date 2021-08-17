@@ -1,0 +1,7 @@
+==How to use sed ==
+
+
+- Change the tab to , in a txt file using sed
+{{{bash
+sed 's/\t/,/g' test.txt > test2.txt
+}}}

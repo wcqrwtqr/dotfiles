@@ -1,0 +1,9 @@
+=== To start the Goyo===
+- To start
+{{{
+:Goyo
+  }}}
+- To stop
+{{{
+:Goyo
+  }}}

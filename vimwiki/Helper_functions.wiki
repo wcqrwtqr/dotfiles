@@ -1,0 +1,33 @@
+# Hickey-Fuller test function
+
+Uses the adfuller function and output a nice report if the data are stationary or not
+tags: pandas, stationary, helper function
+
+{{{python
+import pandas as pd
+from statsmodels.tsa.stattools import  adfuller
+def adf_test(series,title=''):
+    '''
+    Pass in time series and optional title, it returns an ADF report
+    '''
+    print(f'Augmented Dickey-Fuller Test: {title}')
+    result = adfuller(series.dropna(), autolag='AIC')
+    labels = ['ADF Test Statistic','p-value','# Lags Used','# Observation']
+    out = pd.Series(result[0:4], index=labels)
+    for key, value in result[4].items():
+        out[f'critical value ({key})'] = value
+    print(out.to_string())
+
+    if result[1] <= 0.05:
+        print('===============Result===================')
+        print(f'Strong evident against the null hypothesis')
+        print(f'Reject the null hypothesis')
+        print(f'Data has no unit root and is stationary')
+        print('========================================')
+    else:
+        print('===============Result===================')
+        print(f'Weak evident against the null hypothesis')
+        print(f'Fail to reject the null hypothesis')
+        print(f'Data has unit root and is non-stationary')
+        print('========================================')
+}}}

@@ -1,0 +1,80 @@
+# How to trim a video in terminal
+
+Good website for this
+https://ostechnix.com/20-ffmpeg-commands-beginners/
+
+
+
+# This will trim the video from xxx to yyyy (fixed timing)
+{{{bash
+ffmpeg -i input.mp4 -ss 01:19:27 -to 02:18:51 -c:v copy -c:a copy output.mp4
+}}}
+
+# This will trim the video from xxx and with duration yyy (start and duration)
+{{{bash
+ffmpeg -i input.mp4 -ss 00:01:10 -t 00:01:05 -c:v copy -c:a copy output.mp4
+}}}
+
+
+# Extract audio from video
+{{{bash
+ffmpeg -i video.avi -f mp3 audio.mp3
+}}}
+
+
+# Convert video to another format
+{{{bash
+ffmpeg -i video.flv video.mpeg
+}}}
+
+# change the video resolution
+{{{bash
+# The above command will set the resolution of the given video file to 1280x720.
+ffmpeg -i input.mp4 -s 1280x720 -c:a copy output.mp4
+# Similarly, to convert the above file to 640x480 size, run:
+ffmpeg -i input.mp4 -s 640x480 -c:a copy output.mp4
+}}}
+
+# take audio and convert it to avi and show waves in it 
+{{{bash
+ffm -i input.mp3 -filter_complex "..." output.avi
+# or this from the web site
+ffmpeg -i song-1.mp3 -filter_complex "[0:a]showwaves=s=1280x720:mode=line:rate=25, format=yuv420p[v]" -map "[v]" -map 0:a song-1.mp4
+# for cline option use below
+ffmpeg -i song-1.mp3 -filter_complex "[0:a]showwaves=s=1280x720:mode=cline:rate=25, format=yuv420p[v]" -map "[v]" -map 0:a song-1.mp4
+}}}
+
+# Remove the audio from the video and leave it without sound(audio)
+{{{bash
+ffmpeg -i input-file-name -c copy -an output-file-name
+}}}
+
+# get video or audio information
+{{{bash
+ffmpeg -i file.mp4 -hide_banner
+# or
+ffmpeg -i file.mp3
+}}}
+
+
+# Cut the video into images
+{{{bash
+ffmpeg -i video.flv image%d.jpg
+}}}
+
+# Concat clips
+
+{{{bash
+
+printf "file '%s'\n" *.mp4 > list.txt
+# use ffplay to play the list of videos in the text file
+ffmpeg -f concat -i list.txt -c copy outfile.mp4
+# use ffmpeg to concat the video file in the text file
+ffmpeg -f concat -i list.txt -c copy outfile.mp4
+# use subshell to generate a list of the mp4s in the current directory
+ffmpeg -f concat -i <( for f in *.mp4; do echo "file '$(pwd)/$f'"; done ) outfile.mp4
+
+}}}
+
+
+

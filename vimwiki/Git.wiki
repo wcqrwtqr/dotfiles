@@ -1,0 +1,23 @@
+=Here is the codes for the github=
+
+=== Get the token for the termianl===
+a) Go to github
+b) go to settings
+c) go to developer
+d) click on create private token
+e) Choose the access previlages
+f) copy the generated token
+
+=== Set up terminal ===
+In terminal 
+a) Make the add, commit, and push 
+b) The terminal will ask you for the password
+c) Add the token to the password 
+
+=== Making commit and push to git ===
+After making the changes to the files do the below actions:
+- Make sure you are in the right branch (master of any branch you what to commit)
+a) *git add -A* # this will add all the changes to be commited
+b) *git commit -m 'message to commit'* # this will make the commits ready to be pushed  
+c) *git push origin master* # this will push all the commited files to master 
+   

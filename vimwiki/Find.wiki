@@ -1,0 +1,11 @@
+
+- Finds all text with .txt inside all the directories
+use i with name so its case insensitive
+{{{bash
+find . -type f -iname "*.txt"
+}}}
+
+- Find all the directories 
+{{{bash
+find . -type d
+}}}

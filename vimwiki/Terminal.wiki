@@ -1,0 +1,36 @@
+* [[Grep]] command
+* [[Find]] commands
+* [[tmux]] 
+* [[Bash]]
+* [[Git]]
+* [[sed]] 
+* [[xargs]]
+* [[zathura]]
+
+== Count the files and folders in a directory ==
+{{{bash 
+tree			# this will get all the files and folders
+tree | wc -l		# thsi will count the files as well
+}}}
+
+* the code below can be added inside the vim app to grep the file name inside 
+  the " and open in it in the pdf viewer beside the app (disown) 
+{{{bash
+map <leader>p 0yi" :!open <C-R>" & disown<CR><CR>
+}}}
+
+* The code below is for finding all the pdf files and do a convert to text
+{{{bash
+for file in *.pdf; do pdftotext $file ;done
+}}}
+
+
+==Key bindings for the terminal==
+{{{
+ctl + U - delete from the cursor to the start of the line.
+ctl + K - delete from the cursor to the end of the line.
+ctl + W - delete from the cursor to the start of the preceding word
+ctl + D - delete from the cursor to the end of the next word.
+ctl + L - clear window
+}}}
+

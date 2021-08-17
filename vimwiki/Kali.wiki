@@ -1,0 +1,27 @@
+=Here will find useful actions for kali linux=
+
+=SSH=
+===== Set up the Kali for SSH=====
+- Open and update the file /etc/ssh/sshd.config
+- Uncommented the line with *Port 22* And updated it to *Port 1986* # you can use any other port you need
+- Make sure to run this command start the ssh server
+{{{
+service ssh status
+service ssh start
+}}}
+- From the other computer run *ssh kali@ip -p 1986*
+- See the youtube link for more details https://www.youtube.com/watch?v=zKnmYXEOCRQ
+
+===== SSH to other devices on same network =====
+a) On the target device ensure to activate the SSH 
+b) On the remote device where you will be working and accessing the target device write the below command
+{{{
+ssh kali@192.168.1.15 -p 1986
+you need to know the IP and Port
+or
+ssh kali@kali.local
+Above you need only the name of the user
+}}}
+
+
+

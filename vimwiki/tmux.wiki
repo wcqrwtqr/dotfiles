@@ -1,0 +1,9 @@
+Cheat sheet for tmux
+
+==Below is the cheat sheet for tmux ==
+- Notes:
+	- I've tried to get the color fixed for vim but not yet fixed
+	- I've mapped the leader to ctl+a which is not best as I love using spaces instead
+
+https://tmuxcheatsheet.com
+

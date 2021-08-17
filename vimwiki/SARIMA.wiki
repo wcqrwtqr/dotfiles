@@ -1,0 +1,94 @@
+# Below is the full answer for the data exercise with the course step by step
+
+
+{{{python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.tools.eval_measures import rmse
+from pmdarima import auto_arima
+import warnings
+warnings.filterwarnings('ignore')
+
+
+# Non stationalry
+df = pd.read_csv('../Data/co2_mm_mlo.csv')
+# df.index.freq = 'MS'
+
+# df2 = pd.read_csv('../Data/DailyTotalFemaleBirths.csv', index_col='Date', parse_dates=True)
+# df2.index.freq = 'D'
+
+# df3 = pd.read_csv('../Data/samples.csv', index_col=0, parse_dates=True)
+# df3.index.freq = 'MS'
+
+
+df['date'] = pd.to_datetime({'year':df['year'], 'month':df['month'],'day':1})
+df = df.set_index('date')
+df.index.freq = 'MS'
+print(df.head())
+# print(df.describe())
+print(df.info())
+
+# df['interpolated'].plot()
+
+# ==================== First ======================
+# 1 go with seasonal decompse to see the plots and feel it 
+# result = seasonal_decompose(df['interpolated'],model='add')
+# result.plot()
+
+# ==================== Second ======================
+# Run auto_arima to see the model it will advice us to do 
+# NO NEED TO DO THE MANUAL WAY
+# print(auto_arima(df['interpolated'], seasonal=True, m=12, trace=True).summary())
+# ==== Answer was as below
+# Model:             SARIMAX(0, 1, 1)x(1, 0, 1, 12)
+# AIC                            424.897
+
+# ==================== Third  ======================
+# split the data for testing and traning and choose 12 points as the test
+train = df.iloc[:717]
+test = df.iloc[717:]
+# Create the model and test it with the train and test df's (using the order 
+# from the auto_arima run from about)
+'''
+model = SARIMAX(train['interpolated'], order=(0,1,1), seasonal_order=(1,0,1,12))
+result = model.fit()
+'''
+# Check the result summary and confirm its similar to the auto_arima run
+# print(result.summary())
+# result was similar as shown below
+# Model:             SARIMAX(0, 1, 1)x(1, 0, 1, 12)
+## Now we do the pridction
+'''
+start = len(train)
+end = len(train) + len(test) -1
+
+prediction = result.predict(start, end, typ='levels').rename('SARIMA prediction')
+
+test['interpolated'].plot(legend=True)
+prediction.plot(legend=True)
+
+error = rmse(test['interpolated'], prediction)
+print(error)
+print(test['interpolated'].mean())
+'''
+#### Potting this shows a good trend of modeling and the xarima is on top of the test data
+# now we can start train the full data using the model and forecast 12 months ahead and see the result
+
+# ==================== Fourth ======================
+# Train the whole model using the sarimax order
+
+model = SARIMAX(df['interpolated'], order=(0,1,1), seasonal_order=(1,0,1,12))
+result = model.fit()
+
+forecast = result.predict(len(df), len(df) + 11, typ='levels').rename('forecast')
+
+df['interpolated'].plot(legend=True)
+forecast.plot(legend=True)
+# This is the final result and we are done and the graph is drawing and its reasonable
+
+plt.show()
+
+}}}

@@ -1,0 +1,60 @@
+How to make graphs with several values and use the secondary axis
+
+===Graphing plot for gauges and using P & T vs elapse time ===
+
+
+{{{python
+import plotly.express as px
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
+
+
+x = df_lst['elapse']
+yp = df_lst['pressure']
+yt = df_lst['temperature']
+
+# Making the graph for the two values
+
+fig_n = make_subplots(specs=[[{'secondary_y': True}]])
+fig_n.update_layout(title_text='Pressure vs Temperature')
+fig_n.update_xaxes(title_text='Time lapse')
+fig_n.update_yaxes(title_text='Pressure /psi', secondary_y=False)
+fig_n.update_yaxes(title_text='Temperature /F', secondary_y=True)
+fig_n.add_trace(go.Scatter(x=x, y=yt, mode='lines', name='Temperature'), secondary_y=True)
+fig_n.add_trace(go.Scatter(x=x, y=yp, mode='lines', name='Pressure'), secondary_y=False)
+
+}}}
+
+
+===For normal graphs ===
+
+We can use the following lines 
+{{{python
+import plotly.express as px
+
+fig1 = px.line(x=df_lst['elapse'], y=df_lst['pressure'])
+fig2 = px.line(x=df_lst['elapse'], y=df_lst['temperature'])
+
+fig1.show()
+fig2.show()
+}}}
+
+
+===Making graph for scatter ===
+{{{python
+fig = px.scatter(df,x='age', y='bmi')
+fig.show()
+}}}
+
+== How to make 3d graphs  ==
+
+{{{python
+# 3D graph for golucse vs age vs stroke
+# dataframe show be passed as full and the choose what we need from the x, y & z values (name of the columns)
+plt.figure(dpi=100)
+fig = px.scatter_3d(df,x='avg_glucose_level', y='age',z='stroke', color='stroke')
+fig.show()
+}}}
+
+
+

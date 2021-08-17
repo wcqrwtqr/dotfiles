@@ -1,0 +1,36 @@
+=Commands for the streamlit lib=
+
+
+below is the cheat sheet webpage
+https://share.streamlit.io/daniellewisdl/streamlit-cheat-sheet/app.py
+
+
+----
+How to upload files to the site and take the unique items from it
+
+{{{python
+upload_file = st.file_uploader('upload files', type=['csv'])
+if upload_file is not None:
+	df = pd.read_csv(upload_file)
+}}}
+
+- to make the unique columns to the side bar we do the following:
+- Make sure the names in the hader_1 and headaer_2 are matching the csv file name
+
+{{{python
+metadata = df
+option_1 = st.sidebar.selectbox(
+	'header 1',
+	metadata['SYMBOL'].unique()
+)
+option_2 = st.sidebar.selectbox(
+	'header 2',
+	metadata['header_2'].unique()
+)
+}}}
+
+* Now we can filter the df with the options form the side bar
+
+{{{python
+filterdata = metadata[(metadata['header_1']==option_1) & (metadata['header_2']==option_2)]
+  }}}

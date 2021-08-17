@@ -1,0 +1,62 @@
+=Supervised MachineLearning Recap=
+
+
+
+| Method               | Target    | Hypothesis       | Cost          |
+|----------------------|-----------|------------------|---------------|
+| Linear Regression    | Continues | y=b+X.w          | MSE           |
+| Logistics Regression | Binary    | y=sigmoid(b+X.w) | Cross Entropy |
+
+
+
+=Confusion Matrix=
+
+
+|                    | Test Negative                | Test Positive                 |
+|--------------------|------------------------------|-------------------------------|
+| Condition Negative | True Negative                | False Positive (Type 1 error) |
+| Condition Positive | False Negative(Type 2 error) | True Positive                 |
+
+
+==Confusion Matrix helper function==
+
+{{{python
+	def pretty_confusion_matrix(y_true, y_pred, labels=['False', 'True']):
+		cm = confusion_matrix(y_true, y_pred)
+		pred_labels = ['Predicted '+l for l in labels]
+		df = pd.DataFrame(cm,index=labels , columns=pred_labels)
+		return df
+}}}
+
+
+==To normalize the dataframe to be between 0 and 1 using MinMaxScaler ==
+{{{python
+from sklearn.preprocessing import MinMaxScaler
+mms = MinMaxScaler()
+df['Weight_mms'] = mms.fit_transform(df[['Weight']])
+df['Height_mms'] = mms.fit_transform(df[['Height']])
+df.describe()
+}}}
+
+
+
+==To normalize the dataframe to be between 0 and 1 using StandardScaler ==
+{{{python
+from sklearn.preprocessing import StandardScaler
+ss = StandardScaler()
+df['Weight_ss'] = ss.fit_transform(df[['Weight']])
+df['Height_ss'] = ss.fit_transform(df[['Height']])
+df.describe()
+}}}
+
+
+===Special note for selecting the model options===
+
+Special note for selecting the model layer activation, and loss
+| Option of y value                  | Last activatin              | loss                            |
+|------------------------------------|-----------------------------|---------------------------------|
+| y is array with one value (binary) | last activation = 'sigmoid' | loss='binary_corssentropy'      |
+| y is category with several values  | last activation = 'sotmax'  | loss='categorical_crossentropy' |
+Also make sure to make the first input_shape=(num,) -> num is the number of column in X training set 
+
+

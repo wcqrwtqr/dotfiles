@@ -1,0 +1,21 @@
+Below are the key bindings for the vim cheat
+
+{{{
+- <leader>KB get the answer on a special buffer
+- <leader>KR Replace your question by the answer
+- <leader>KP Past the answer below your question
+- <leader>KC Replay last query, toggling comments
+- <leader>KE Send first error to cht.sh
+- <leader>C Toggle showing comments by default see
+}}}
+
+Example: Using <leader>KK at the end of the question inside the python file
+{{{
+dataframe loc 
+}}}
+
+
+Link for the plug
+https://github.com/dbeniamine/cheat.sh-vim
+
+

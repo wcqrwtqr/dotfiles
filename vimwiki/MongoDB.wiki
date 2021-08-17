@@ -1,0 +1,22 @@
+- How to start server
+
+{{{Bash
+brew services start mongodb-community@5.0
+}}}
+
+{{{Bash
+brew services stop mongodb-community@5.0
+}}}
+
+- Start the database server
+
+{{{Bash
+mongo
+}}}
+
+
+
+
+
+
+

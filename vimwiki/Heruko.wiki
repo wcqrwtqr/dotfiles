@@ -1,0 +1,41 @@
+= Actions for uploading to Heruko = 
+
+== `Required files` ==
+1) [[setup.sh]]
+2) [[Procfile]]
+3) requirements.txt
+
+----
+* To ensure the connection is running run the command 
+{{{bash
+heruko login  
+}}}
+The website will open and let you know that you are good to go
+===Next===
+* create the name of the app in heruko
+* While inside the `github folder` of the app run below command
+{{{bash
+heruko create appname  
+}}}
+No need for any extensions
+A new app with given url will be created for us
+
+* Now to push the git files to heruko using the command below 
+* Make sure to be on the correct folder
+{{{bash
+git push heroko main 
+}}}
+Will push the master or main branch to heroku and wait
+
+
+----
+
+= Deploy django to heruko=
+
+* Below site for deplying django to heroko 
+
+https://www.geeksforgeeks.org/how-to-deploy-django-application-on-heroku/
+
+
+
+

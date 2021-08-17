@@ -1,0 +1,193 @@
+=How to make graps for several items in the data frame=
+
+This will loop in the data frame one by one and graph each column with the stroke column 
+Tags: Graphing, matplotlib, function, all at once
+{{{python
+#create the function
+def plot_bar(temp1):
+    for temp in temp1:
+        dat_temp = df[[temp, 'stroke']].groupby([temp],
+                                                as_index=False).mean().sort_values(by='stroke',
+                                                                                   ascending=False)
+        plt.bar(dat_temp[temp], dat_temp.stroke)
+        plt.ylabel('stroke')
+        plt.xlabel(temp)
+        plt.subplot()
+        plt.show()
+# call the function 
+plot_bar(["gender",'work_type','Residence_type','smoking_status','ever_married','heart_disease','hypertension'])
+}}}
+
+
+
+==How to plot two graphs on one sheet with different colors==
+
+{{{python
+
+# get the values of the storke =1 and =0 in seperate df's
+strok_Y = df[df['stroke']==1]
+strok_N = df[df['stroke']==0]
+
+# Plot them
+plt.figure(figsize = (12,6))
+plt.scatter(strok_N["avg_glucose_level"],strok_N["bmi"], label = "Stroke: 0", color="deeppink", alpha=0.75)
+plt.scatter(strok_Y["avg_glucose_level"],strok_Y["bmi"],label= "Stroke: 1", color="cornflowerblue", alpha=0.95 )
+plt.title("Stroke - Avg Glucose Level - BMI")
+plt.xlabel("Avg Glucose Level")
+plt.ylabel("BMI")
+plt.legend()
+plt.show()
+}}}
+
+
+===Plotting histogram ===
+{{{python
+plt.figure(figsize=(12,6))
+plt.hist(df['age'], bins=50 , color="firebrick")
+plt.xlabel('Age')
+plt.ylabel('Fequency')
+plt.title('Age Distribution', size=12)
+plt.show()
+}}}
+
+
+
+===Plotting Pie chart ===
+{{{python
+stroke_count = df['stroke'].value_counts()
+gender_count =df['gender'].value_counts() 
+
+fig = plt.figure(figsize=(12,6))
+ax1 = plt.subplot2grid((2,2),(0,0))
+plt.pie(x=stroke_count, autopct='%.2f%%', labels=stroke_count.keys(),pctdistance=0.6)
+plt.title('Stroke')
+
+ax1 = plt.subplot2grid((2,2),(0,1))
+plt.pie(x=gender_count, autopct='%.2f%%', labels=gender_count.keys(),pctdistance=0.6)
+plt.title('Gender')
+plt.show()
+
+}}}
+
+==Making graph with distplot==
+{{{python
+fig, axes = plt.subplots(1,3,figsize=(18,5))
+sns.distplot(ax=axes[0], x=df['age'])
+axes[0].set_title('Age')
+
+sns.distplot(ax=axes[1], x=df['avg_glucose_level'])
+axes[1].set_title('Aver Glucose Level')
+
+
+sns.distplot(ax=axes[2], x=df['bmi'])
+axes[2].set_title('BMI')
+plt.show()
+}}}
+
+
+
+
+
+==How to make vlines on graph based on condition==
+
+This will dray the df of total 
+then draw verical lines when the holiday is equal 1 which is 1 or 0 in the df table
+
+{{{python
+ax = df['total'].plot()
+for day in df.query('holiday==1').index:
+    ax.axvline(x=day, color='red',alpha=0.5)
+# we can use df[df['holiday']==1].index instead of query
+}}}
+
+
+==Plotting sound and images and converting them to an array ==
+
+{{{python
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+
+img = Image.open('../data/iss.jpg')
+img
+img.show()
+
+imgarray = np.asarray(img)
+imgarray.shape
+imgarray
+imgarray.ravel().shape
+my_x = imgarray.ravel().shape
+my_x
+
+from scipy.io import wavfile
+rate, snd = wavfile.read(filename='../data/sms.wav')
+from IPython.display import Audio
+Audio(data=snd, rate=rate)
+sound_x = Audio(data=snd, rate=rate)
+
+len(snd)
+snd[0]
+snd
+plt.plot(snd)
+plt.show()
+
+_ = plt.specgram(snd, Fs=44100, NFFT=1024 )
+plt.show()
+
+}}}
+
+===How to plot several graphs from a dataframe using for loop===
+{{{python
+plt.figure(figsize=(15,5))
+# State the name of the columns in the enumerate part
+for i, feature in enumerate(df.columns):
+    plt.subplot(1,4,i+1)
+    df[feature].plot(kind='hist', title=feature)
+    plt.xlabel(feature)
+
+plt.show()
+}}}
+
+
+==Plotting hist for all the data in df the easy way==
+No need for any configuration
+{{{python
+_ = df.hist()
+plt.show()
+}}}
+
+===Draw countour graph===
+{{{python
+def plot_decision_boundary(model, x,y):
+        amin, bmin = x.min(axis=0) - 0.1
+        amax, bmax = x.max(axis=0) + 0.1
+        htick = np.linspace(amin, amax, 101)
+        vtick = np.linspace(bmin, bmax, 101)
+
+        aa, bb =  np.meshgrid(htick, vtick)
+        ab = np.c_[aa.ravel(), bb.ravel()]
+        c = model.predict(ab)
+        cc = c.reshape(aa.shape)
+
+        plt.figure(figsize=(12,8))
+        plt.contourf(aa,bb,cc,cmap='bwr',alpha=0.2)
+        plt.plot(X[y==0, 0],X[y==0, 1], 'ob', alpha=0.5)
+        plt.plot(X[y==1, 0],X[y==1, 1], 'xr', alpha=0.5)
+        plt.legend(['0','1'])
+        plt.show()
+
+plot_decision_boundary(model, X, y)
+}}}
+
+
+===Create a pairplot with seaborn===
+This plot will show all values in relation with one of the columns and will plot a nice graph to see 
+all the relationship bewteen all the volumns visually
+Tags: Seaborn, pair,  plot, colors, based on a column
+{{{python
+import seaborn as sns
+sns.pairplot(df, hue='species')
+plt.show()
+}}}
+
+

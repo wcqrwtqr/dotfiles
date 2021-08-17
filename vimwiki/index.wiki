@@ -1,0 +1,26 @@
+=My Knowledge base=
+My work for programming 
+* [[Conda.wiki|Conda]]
+* [[React]]
+* [[Django.wiki|Django]]
+* [[Flask.wiki|Flask]]
+* [[Kali.wiki|Kali]]
+* [[Pyhton.wiki|Python]]
+* [[Terminal.wiki|Terminal]]
+* [[Youtube.wiki|Youtube]]
+* [[vim.wiki|Vim]]
+* [[vifm]] 
+* [[Heruko]]
+* [[pipenv]]
+* [[ffmpeg]]
+* [[Book]]
+* [[VBA]]
+* [[MongoDB]]
+* 
+ 
+* [[Mails]]
+
+= Business Talks =
+* [[Communication]] 
+
+

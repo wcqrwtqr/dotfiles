@@ -1,0 +1,16 @@
+=How to make the heat map with seaborn as sns=
+
+
+{{{python
+
+import seaborn as sns
+import  matplotlib.pyplot as plt
+
+# its better to make the dataframe with values and use StandardScaler to maek then all between -1 & 1
+corr = df.corr()
+plt.figure(figsize=(15,10))
+sns.heatmap(corr, annot=True, annot_kws={'size':15})
+plt.title('Heatmap of corrlation')
+plt.show()
+
+}}}

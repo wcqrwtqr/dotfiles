@@ -1,0 +1,292 @@
+= Pandas Library = 
+
+
+* Load csv files and parse date as date while loading
+
+{{{python
+# use parse_dates
+df = pd.read_csv("../input/100-sales-record/100-Sales-Records/100 Sales Records.csv",parse_dates=["Order Date"]) 
+
+# convert a column from datetime to year // convert date , year, timestamp
+df["Order year"] =df["Order Date"].dt.year
+}}}
+
+
+
+=== How to convert date and time in pandas Data frame ==
+
+{{{python
+#First you need to get the column ready - if  you need to combine two columns having date and time then use the below code to join the two strings (str)
+#This will create a new column with the name date_time which will join the date and column
+df['date_time'] = df['date'] + " " + df['time']
+
+#Make sure to view the output
+
+#After that you need to inspect the DataFrame and see the formate for the new column that you need to convert to date-time 
+#Below code will convert the date_time column to date-time formate as shown below (month, date, year, H:M:S)
+# use the link for more date-time ((https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior))
+df['date_time'] = pd.to_datetime(df['date_time'], format='%m/%d/%y %H:%M:%S')
+}}}
+
+
+
+===How to get a unique list from pandas ===
+{{{python
+#This code below will get the unique items from a list and put them in a new dataframe
+df_u = df['column'].unique().tolist()
+}}}
+
+[[https://www.youtube.com/watch?v=7zeAIEPJaoQ|Good youtube video on pandas with excel and streamlit]]
+
+
+=== How to mask a data frame to ensure they are having only the selected list (strings) ===
+{{{python
+# Below will retrun a boolen if the selection is true or false
+df_selection=['home', 'work', 'game']
+mask = df['type'].isin(df_selection) # the boolen true or false
+df[mask].head() # now df will contain only the selected from df_selection
+}}}
+
+
+=== How to mask a data frame to ensure they are having only the selected values (numbers) ===
+{{{python
+# Below will retrun a boolen if the selection is true or false
+age_selection = (30,40)
+mask = df['Age'].between(*age_selection) # using tuple for values 
+df[mask].head() # now df will contain only the selected from df_selection
+}}}
+
+
+=== How to rename the columns of a dataframe ===
+{{{python
+df = df.rename(columns={'x':'y''z'})
+}}}
+
+
+=== How to rename a specified column from 0 to 'count' header ===
+{{{python
+df = df.rename({0 : 'count'}, axis='columns')
+}}}
+
+
+=== To replace the names in a column by values like (0,1,2 3 etc)  ===
+- My way was slow but you can know the new names
+{{{python
+# Changing the values of gender to 0 Male and 1 female
+df['gender'] = df['gender'].map({'Male': 0, 'Female': 1, 'Other': 2})
+# Changing the values of married to 0 No and 1 Yes
+df['ever_married'] = df['ever_married'].map({'No': 0, 'Yes': 1})
+# etc ....
+}}}
+
+- From kaggle
+{{{python
+gender_encode=LabelEncoder()
+married_encode=LabelEncoder()
+work_type_encode=LabelEncoder()
+Residence_type_encode=LabelEncoder()
+smoking_status_encode=LabelEncoder()
+data['gender']=gender_encode.fit_transform(data['gender'])
+data['ever_married']=married_encode.fit_transform(data['ever_married'])
+data['work_type']=work_type_encode.fit_transform(data['work_type'])
+data['Residence_type']=Residence_type_encode.fit_transform(data['Residence_type'])
+data['smoking_status']=smoking_status_encode.fit_transform(data['smoking_status'])
+}}} 
+
+
+* To get the count of each element from a colum (AKA series) use the below action
+
+{{{python
+stroke_count = df['stroke'].value_counts()
+gender_count =df['gender'].value_counts() 
+print(stroke_count[0] )
+print('=========')
+print(gender_count)
+# this will print the unique index and the count of each one
+}}}
+
+
+- How to convert the index to datatime
+{{{python
+df.index = pd.to_datetime(df.index)
+}}}
+
+
+- How to import the data and ensure the data is parsed as date_time
+
+{{{python
+# ensure to add parse_dates to the import 
+df = pd.read_csv('../Data/starbucks.csv', index_col='Date', parse_dates=True)
+}}}
+
+
+- Plotting the data frame with one of the columns "Closing" and adding labels and title and sacling the x and y access
+
+{{{python
+ax = df['Close'].plot(title='Hi')
+ax.autoscale(axis='both', tight=True)
+ax.set(xlabel='X',ylabel='Y')
+plt.show()
+}}}
+
+=== Re sampling ===
+
+To get the data over months or Quarter or years you can use the resampling (resample) to apply 
+any type of action on the data as follows:
+
+
+{{{python
+df['Close'].resample(rule='A').sum() # for full year
+df['Close'].resample(rule='A').mean() # for full year
+df['Close'].resample(rule='Q').sum() # for Quarterj
+df['Close'].resample(rule='Q').mean() # for Quarterj
+df['Close'].resample(rule='M').sum() # for Month
+df['Close'].resample(rule='M').mean() # for Month
+df['Close'].resample(rule='W').sum() # for weeks
+}}}
+
+
+- Slice a dataframe using the praceses and and specify the indexes 
+{{{python
+# by appling the slice to the dataframe 
+df['Close']['2017-01-01':'2017-03-31'].plot()
+# by appling the slice to the to the plot it self
+df['Close'].plot(xlim=['2017-01-01','2017-03-31p'])
+}}}
+
+
+# How to take the vales from a csv files and convert its values to date time
+
+tags: to_datetime, pandas date time changer , month, year, day, etc, 
+
+Table is as follows:
+
+| |  year | month  |decimal_date | average | interpolated|
+|0|  1958 |     3  |    1958.208 |  315.71 |       315.71|
+|1|  1958 |     4  |    1958.292 |  317.45 |       317.45|
+|2|  1958 |     5  |    1958.375 |  317.50 |       317.50|
+ 
+{{{python
+df['date'] = pd.to_datetime({'year':df['year'], 'month':df['month'],'day':1})
+# note that there is no days in the csv file so no need to pass the value and add 1 is enough
+# or an alternative way as below:
+dict(year=df['year'], month=df['month'],day=1 )
+}}}
+
+
+==How to convert each column in pandas dataframe from float to int==
+tags: for on pandas dataframe , change type, apply action over several columns, apply change over several columns
+{{{python
+# print the columns for copy and paste
+print(df.columns)
+# use the for loop to change them all
+cols = ['rest1', 'rest2', 'rest3', 'rest4', 'total']
+for column  in cols:
+    df[column] = df[column].astype(int)
+}}}
+
+
+==How to get all the values from panadas dataframe that meets a criteria==
+
+{{{python
+# this code will get all the index values when the column holiday is equal 1
+df[df['holiday']==1].index
+
+# same thing as below:
+df.query('holiday==1').index
+
+}}}
+
+
+==Using pandas scatter_matrix==
+This will create a table of all the coloumns and show the corrlation bewteen them all
+
+{{{python
+from pandas.plotting import scatter_matrix
+import pandas as pd
+# I used a file with a tab delimiter 
+dfM = pd.read_csv('~/Desktop/MPFM Data 4.txt', delimiter='\t',index_col='Clock')
+dfM.head()
+dfM.columns
+dfM.drop(['Std.GasMassRate',], axis=1, inplace=True)
+
+scatter_matrix(dfM)
+plt.show()
+
+}}}
+
+
+# how to get dummies of a column and split it to 0 or 1 
+This code will split and add two columns one for male and other for female
+The values will be either zero or one
+Using the `prefix` to make the column called __Gender-Male__ and __Gender-female__
+{{{python
+df = pd.read_csv('../data/weight-height.csv')
+pd.get_dummies(df['Gender'], prefix='Gender').head()
+}}}
+
+Then concat the two pandas together
+
+{{{python
+X = pd.concat([df[['satisfaction_level', 'last_evaluation', 'number_project',
+                  'time_spend_company', 'Work_accident',
+                  'promotion_last_5years', 'average_montly_hours_100']],
+              df_dummies], axis=1).values
+}}}
+
+
+==Get the count of each value in a dataframe==
+This will get the count of each value in the dataframe column
+{{{python
+df['sales'].value_counts()
+}}}
+
+
+# take a column from pandas and get the unique values from it and add it to a dictionary 
+This will take the column of scpices and get all the unique values in a dataframe
+then the second line will add it to a dict
+{{{python
+target_names = df['species'].unique()
+# Result is an array like -> array(['setosa', 'versicolor', 'virginica'], dtype=object)
+target_dict = {name: i for i, name in enumerate(target_names)}
+# result will look like -> {'setosa': 0, 'versicolor': 1, 'virginica': 2}
+}}}
+
+
+==The code below will make a multilevel header in pandas==
+Its a little pit complicated but its good to have it
+{{{python
+# learning rates
+dflist = []
+learning_rate= [0.01,0.05, 0.1, 0.5]
+
+for lr in learning_rate:
+    K.clear_session()
+    model = Sequential()
+    model.add(Dense(1, input_shape=(4,),activation='sigmoid'))
+    model.compile(SGD(lr=lr), loss='binary_crossentropy',metrics=['accuracy'])
+    h = model.fit(X_train, y_train, batch_size=16 , verbose=True,epochs=25)
+    dflist.append(pd.DataFrame(h.history, index=h.epoch))
+
+type(dflist)
+
+historydf= pd.concat(dflist, axis=1)
+historydf.describe()
+historydf.plot()
+plt.show()
+
+# this code will take the names of the header (loss, optimize)
+metrics_reported = dflist[1].columns
+metrics_reported
+# this code will put the learning rate on top and under it will put the metrics (loss, optimize)
+idx = pd.MultiIndex.from_product([learning_rate, metrics_reported],
+                                 names=['learning_rate', 'metrics'])
+historydf.columns = idx
+
+}}}
+
+
+
+
+
+

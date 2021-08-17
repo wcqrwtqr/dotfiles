@@ -1,0 +1,15 @@
+=Here is the codes for Django=
+
+== Run server ==
+python3 manage.py runserver
+
+=== Migrate models to database ===
+* First make the migrate command		 *python3 manage.py migrate*
+* Next migrate the changes to your app	 *python3 manage.py makemigration app_name*
+* Last make the first command again		 *python3 manage.py migrate*
+
+
+- [[FillDatabase]] _ 
+
+
+ 

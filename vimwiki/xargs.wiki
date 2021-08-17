@@ -1,0 +1,14 @@
+
+
+# How find several files across several folders with many criteria and copy them to a destination folder 
+  
+  - Use the -iname for case insensitive and use -and to add as much criteria as we want also use the "\(" "\)"  
+{{{bash
+	find . -type f \( -iname "*I-SEP*" -and -name "*MS3*" -name "*2020*" \) | xargs -I{} cp {} ~/Desktop/test_find_xargs
+  }}}
+  
+  
+  - Use below bash terminal code to get create folders from a list of names in a txt file (xargs, cat, mkdir)
+{{{bash
+cat filename.txt | xargs -I "{}" mkdir -p "{}"
+  }}}

@@ -1,0 +1,9 @@
+=== To start the Limelight===
+- To start
+{{{
+:Limelight
+  }}}
+- To stop
+{{{
+:Limelight!
+  }}}

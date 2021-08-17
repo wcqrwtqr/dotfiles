@@ -1,0 +1,10 @@
+How to change the color for VIFM
+
+    Go to vifmrc which is located in /.config/vifm/ folder
+    Go inside colors/ and create a file with .vifm extension
+    From the website below choose the best theme for you and paste it to the file
+
+[[https://vifm.info/colorschemes.shtml|Scheme link to get different colors]]
+
+* `t` to select multiple files 
+

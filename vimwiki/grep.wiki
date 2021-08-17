@@ -1,0 +1,29 @@
+                     == Grep main commands ==
+
+
+=== To search for word in several folders and files with --exclude ===
+- Use below code to grep the work you need and exclude and unwated file type
+{{{
+grep -r -in os . --exclude="*.csv" --exclude="*.ipynb"
+}}}
+* The code above is to search for the word *os* in the current directory and excluding the two type files
+* _-r_ Is for going through the folders
+* _-in_ Are both for work and exact word (remove n to make it not exact)
+* _._ The dot is the main command to make the search start from the current directory
+* Use  _--exclude=_ to remove the search from any unwated files type the example above removed the search from the .xlsx and .csv (use "*.css", "*.py", "*.html" etc)
+
+=== To search for word in several folders and files with --include ===
+- Use below code to grep the work you need and exclude and unwated file type
+{{{
+grep -r -in os . --include="*.py"
+}}}
+* The code above is to search for the word *os* in the current directory and excluding the two type files
+* _-r_ Is for going through the folders
+* _-in_ Are both for work and exact word (remove n to make it not exact)
+* _._ The dot is the main command to make the search start from the current directory
+* Use _--include=_ to search for the wanted file type only (use *.css, *.py, *.html etc)
+
+* To get all files in a directory using tree and grep
+{{{bash
+ tree . | grep pdf
+}}}

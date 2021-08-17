@@ -1,0 +1,13 @@
+== OS Library ==
+===Using OS library to get the current directory path===
+* This is a preferred method to make the python code can work at any place if you changed the folder location 
+* This is always the best method to get the make top folder path
+* The code is as follows:
+
+{{{python 
+import os
+package_dir = os.path.dirname(os.path.abspath(__file__))
+#now you can use the package_dir to select any file in the directory
+source_file1 = os.path.join(package_dir,'file2.csv')
+source_file2 = os.path.join(package_dir,'file2.csv')
+}}}
