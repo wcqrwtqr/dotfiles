@@ -25,7 +25,6 @@ set showcmd
 set encoding=utf-8
 set timeoutlen=250
 
-
 call plug#begin('~/.vim/plugged')
 Plug 'tweekmonster/gofmt.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -64,9 +63,20 @@ Plug 'junegunn/limelight.vim'
 Plug 'reedes/vim-pencil'
 Plug 'preservim/tagbar'
 Plug 'mhinz/vim-startify'
-Plug 'pechorin/any-jump.vim'
 Plug 'Yggdroot/indentLine'
+Plug 'junegunn/vim-easy-align'
+Plug 'rhysd/vim-grammarous'
+Plug 'junegunn/vim-peekaboo'
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
+
+
+" Below is for the vim-easy-align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 
 " colorscheme purify
 " k colorscheme purify
@@ -114,7 +124,7 @@ inoremap <localleader>d <esc>ddi
 " Moving lines up and down during visual
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-" nnoremap <leader>y "+y // conflect with my next tab keybinding
+" nnoremap <leader>y "+y // conflict with my next tab keybinding
 vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
 
@@ -127,14 +137,20 @@ nnoremap J mzJ`z
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-
-
+" Undo break point so I do not need to delete the whole work and the undo can
+" be stopped at certain point
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ? ?<c-g>u
+inoremap " "<c-g>u
+inoremap ' '<c-g>u
+inoremap [ [<c-g>u
 
 " Jump to defections using coc
 nmap <leader>gd <Plug>(coc.definition)
 nmap <leader>gr <Plug>(coc.references)
 
-" this is for multicursor to activate the <A-n> 
+" This is for multicursor to activate the <A-n> 
 if !has('gui_running')
   map "˜" <A-n>
 endif
@@ -165,8 +181,8 @@ map <C-k> :FloatermKill<CR>
 " Here is the key mapping for Floaterm
 " let g:floaterm_keymap_new    = '<F7>'
 " let g:floaterm_keymap_prev   = '<F8>'
-let g:floaterm_keymap_next   = '<F9>'
-let g:floaterm_keymap_toggle = '<F12>'
+" let g:floaterm_keymap_next   = '<F9>'
+" let g:floaterm_keymap_toggle = '<F12>'
 
 " Below are the key bindings for the tabs in vim (t for next, n for new, x for close
 " let mapleader (don't forget that the leader key is mapped to space) 
@@ -175,6 +191,7 @@ nnoremap <leader>2 :tabnext<CR>
 nnoremap <leader>n :tabnew<CR>
 nnoremap <leader>x :tabclose<CR>
 
+" Below mapping to resize the windows in vim windows
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 
@@ -191,6 +208,7 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 " hi SpellBad cterm=underline
 " hi Pmenu guibg=#333b4f
 
+" Old mapping for latex which I did not use 
 " let g:latex_pdf_viewer="Evince"
 
 
@@ -258,11 +276,6 @@ inoremap ‹expr> ‹Right> pumvisible() ? "‹C-y>" :"‹Right›"
 " Cancel the complete menu item like CTRL+e would.
 inoremap ‹expr> ‹Left> pumvisible() ? "‹C-e>" :"‹Left>"
 
-
-
-
-
-
 " Gif config
 "===================
 " map  <Leader>w <Plug>(easymotion-bd-w)
@@ -276,8 +289,6 @@ nnoremap <Leader>r :source $MYVIMRC<CR>
 " This will one a side bar having all the functions and variables for the code 
 nmap <F8> :TagbarToggle<CR>
 
-
-
 " For line indent 
 " let g:indentLine_defaultGroup = 'SpecialKey'
 " let g:indentLine_setColors = 0
@@ -287,10 +298,10 @@ nmap <F8> :TagbarToggle<CR>
 " let g:indentLine_bgcolor_term = 202
 " let g:indentLine_bgcolor_gui = '#FF5F00'
 
-" ===========================
-" AnyJump
-" In normal or visual modeJust place you cursor on any
-" variable/class/constant/name/symbol and press <leader>j or execute :AnyJump
-" in normal mode. You can also use visual mode to select proper keyword (j
-" also works in visual mode) 
-" ===========================
+
+" Kite supported languages
+" Python, JavaScript, Go
+let g:kite_supported_languages = ['python', 'javascript', 'go']
+
+
+
