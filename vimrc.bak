@@ -68,15 +68,15 @@ Plug 'junegunn/vim-easy-align'
 Plug 'rhysd/vim-grammarous'
 Plug 'junegunn/vim-peekaboo'
 Plug 'ryanoasis/vim-devicons'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
-
 
 " Below is for the vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
 
 " colorscheme purify
 " k colorscheme purify
@@ -103,6 +103,7 @@ nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>s :w<CR>
+" map <C-s> :w <CR>
 nnoremap <leader>g gg=G ``<CR>
 inoremap <localleader>o <esc>o
 inoremap <localleader>p <esc>pa
@@ -118,8 +119,6 @@ inoremap <localleader>d <esc>ddi
 " inoremap <localleader>c console.log()<esc>ha
 " inoremap <localleader>f function(){}<esc>i
 " inoremap <localleader>[ ${}<esc>ha
-
-
 
 " Moving lines up and down during visual
 vnoremap J :m '>+1<CR>gv=gv
@@ -152,7 +151,7 @@ nmap <leader>gr <Plug>(coc.references)
 
 " This is for multicursor to activate the <A-n> 
 if !has('gui_running')
-  map "˜" <A-n>
+    map "˜" <A-n>
 endif
 
 " ===================== NERDTree =========================
@@ -160,14 +159,14 @@ endif
 map <C-o> :NERDTreeToggle<CR>
 " Below is the fzf to search for files inside the vim
 map ; :Files<CR>
+map ± :Ag<CR> 
 " map ' :BLines<CR>
 " map \ :Buffers<CR>
-map ± :Ag<CR> 
 " The above code is for the Silver search which can search the whole directory for any word, no need to use grep anymore
 
 " Making preview the live editor for live latex preview 
-autocmd Filetype tex setl updatetime=1
-let g:livepreview_previewer = 'open -a Preview'
+" autocmd Filetype tex setl updatetime=1
+" let g:livepreview_previewer = 'open -a Preview'
 " let g:livepreview_previewer = 'evince'
 
 " ===================== Floaterm  =========================
@@ -191,6 +190,9 @@ nnoremap <leader>2 :tabnext<CR>
 nnoremap <leader>n :tabnew<CR>
 nnoremap <leader>x :tabclose<CR>
 
+" Using leader e will put the vim to Goyo and SoftPencil
+nnoremap <leader>e :Goyo<bar>:SoftPencil<bar>:Limelight<CR>
+
 " Below mapping to resize the windows in vim windows
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
@@ -201,16 +203,11 @@ nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 " set omnifunc=csscomplete#CompleteCSS
 
-" map <C-s> :w <CR>
 
 " Changing the spell check box to underline and old instead of the red color
 " hi clear SpellBad
 " hi SpellBad cterm=underline
 " hi Pmenu guibg=#333b4f
-
-" Old mapping for latex which I did not use 
-" let g:latex_pdf_viewer="Evince"
-
 
 " Changing the color of the of the tab 
 " hi TabLineSel guifg=LightGreen guibg=DarkGreen ctermfg=LightGreen ctermbg=DarkGreen
@@ -236,7 +233,7 @@ xmap <leader>x  <Plug>(coc-convert-snippet)
 
 " this code below if for vim-highlightedold vim
 if !exists('##TextYankPost')
-  map y <Plug>(highlightedyank)
+    map y <Plug>(highlightedyank)
 endif
 let g:highlightedyank_highlight_duration = 500
 
@@ -244,8 +241,8 @@ let g:highlightedyank_highlight_duration = 500
 
 "Below code is to write the words and create the needed actions as in the
 "execute command line
-command! Vimrc execute ":tabnew|:e ~/.vimrc"
-command! Reload execute ":source ~/.vimrc"
+" command! Vimrc execute ":tabnew|:e ~/.vimrc"
+" command! Reload execute ":source ~/.vimrc"
 
 
 "===================
