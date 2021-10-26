@@ -11,8 +11,8 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-ZSH_THEME="agnoster"
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="agnoster"
 
 # ZSH_THEME="gruvbox"
 # SOLARIZED_THEME="dark"
@@ -34,7 +34,6 @@ export DEFAULT_USER="$(whoami)"
 
 
 # trying to fix tmux
-
 # export TERM="screen-256color"
 
 
@@ -111,10 +110,6 @@ source $ZSH/oh-my-zsh.sh
 export PYTHON_UTILS="$HOME/code/python/utils"
 export PATH="$PYTHON_UTILS:$PATH"
 
-
-
-
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -141,14 +136,13 @@ export FZF_BASE=/path/to/fzf/install/dir
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
+alias tmux="TERM=screen-256color-bce tmux"
 alias ls="exa"
 alias myip="curl http://ipecho.net/plain; echo"
 alias usage="du -h -dl"
 alias myrouter="ipconfig getoption en0 router"
 alias allip="arp -a" # get all the IP for other devices on the network
 alias mynet="ipconfig getpacket en0"
-alias kali="VirtualBoxVM --startvm Kali-Linux-2020.3-vbox-amd64"
 alias dpsa="docker ps --all"
 alias dps="docker ps"
 alias dil="docker image list"
@@ -162,14 +156,27 @@ alias vimrc="vi ~/.vimrc"
 alias zshrc="vi ~/.zshrc"
 alias vifmrc="vi ~/.config/vifm/vifmrc"
 alias cheat="curl cht.sh"
+alias sot="tmux source ~/.tmux.conf"
 
-
+# Make a quick github comit and push to github with small letters
 function acp(){
     git add -A
     git commit -m "$1"
     git push
 }
 
+#Below function used to go fuzzy find directory and cd to it 
+function fcd(){
+    cd "$(find . -type d | fzf)"
+}
+
+
+
+# Key binding for using vim while selecting the autocompelte
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -204,6 +211,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# neofetch
-pfetch
-# curl wttr.in
+neofetch
+# pfetch

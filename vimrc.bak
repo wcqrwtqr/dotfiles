@@ -70,6 +70,9 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'ryanoasis/vim-devicons'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'airblade/vim-gitgutter'
+Plug 'Shougo/echodoc.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'heavenshell/vim-pydocstring', { 'do': 'make install', 'for': 'python' }
 call plug#end()
 
 " Below is for the vim-easy-align
@@ -96,14 +99,28 @@ let g:user_emmet_leader_key=','
 " arrows to easily navigate to windows
 " Below I'm mapping the leader key in normal and edit mode to help me do more
 " things instead of going out from edit to normal then edit again
+
 let mapleader = " "
 let maplocalleader="j"
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Same the file
 nnoremap <leader>s :w<CR>
-" map <C-s> :w <CR>
+nnoremap  <C-s> :w <CR>
+
+" Explore other files from within vim and open it in a split window instead of
+" the same window
+nmap <leader>f :Explore<CR>
+let g:netrw_altv= 1
+let g:netrw_dihistmax = 0
+
 nnoremap <leader>g gg=G ``<CR>
 inoremap <localleader>o <esc>o
 inoremap <localleader>p <esc>pa
@@ -154,6 +171,19 @@ if !has('gui_running')
     map "˜" <A-n>
 endif
 
+
+" =============== Tmux navigation mapping to use the <C-l> to move from vim to
+" tmux pane
+" let g:tmux_navigator_no_mappings = 1
+
+" nnoremap <silent> <C-l> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+" nnoremap <silent> <C-K>{Up-Mapping} :TmuxNavigateUp<cr>
+" nnoremap <silent> <C-H>{Right-Mapping} :TmuxNavigateRight<cr>
+" nnoremap <silent> <C-J> {Previous-Mapping} :TmuxNavigatePrevious<cr>
+
+
+
 " ===================== NERDTree =========================
 " Below are the maps for the NERDTree quick open using ctl+o
 map <C-o> :NERDTreeToggle<CR>
@@ -173,9 +203,9 @@ map ± :Ag<CR>
 " Below are the maps for Floaterm so I can open python in a side terminal and
 " make quick updates and review the data
 " map <C-p> :FloatermNew --name=python --wintype=normal --height=0.4 python<CR>
-map <C-p> :FloatermNew --name=repl --wintype=vsplit --width=0.4 --position=right python<CR>
-map <C-s> :FloatermSend<CR>
-map <C-k> :FloatermKill<CR>
+" map <C-p> :FloatermNew --name=repl --wintype=vsplit --width=0.4 --position=right python<CR>
+" map <C-s> :FloatermSend<CR>
+" map <C-k> :FloatermKill<CR>
 
 " Here is the key mapping for Floaterm
 " let g:floaterm_keymap_new    = '<F7>'
@@ -191,7 +221,9 @@ nnoremap <leader>n :tabnew<CR>
 nnoremap <leader>x :tabclose<CR>
 
 " Using leader e will put the vim to Goyo and SoftPencil
-nnoremap <leader>e :Goyo<bar>:SoftPencil<bar>:Limelight<CR>
+" nnoremap <leader>e :Goyo<bar>:SoftPencil<bar>:Limelight<CR> # Limelight does
+" not owrk well with Tmux so I removed it
+nnoremap <leader>e :Goyo<bar>:SoftPencil<CR>
 
 " Below mapping to resize the windows in vim windows
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
@@ -231,18 +263,16 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
 
-" this code below if for vim-highlightedold vim
+" This code below if for vim-highlightedold vim
 if !exists('##TextYankPost')
     map y <Plug>(highlightedyank)
 endif
 let g:highlightedyank_highlight_duration = 500
 
-
-
 "Below code is to write the words and create the needed actions as in the
 "execute command line
-" command! Vimrc execute ":tabnew|:e ~/.vimrc"
-" command! Reload execute ":source ~/.vimrc"
+" command! Vimrc execute \":tabnew|:e ~/.vimrc"
+" command! Reload execute \":source ~/.vimrc"
 
 
 "===================
@@ -278,11 +308,20 @@ inoremap ‹expr> ‹Left> pumvisible() ? "‹C-e>" :"‹Left>"
 " map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader><Leader>w <Plug>(easymotion-overwin-w)
 
+" vv to generate new vertical split
+nnoremap <silent> vv <C-w>v
+" ss to generate new horizontal split
+nnoremap <silent> ss <C-w>s
+
+
 " Reload vimrc without leaving vim using leadder r
-nnoremap <Leader>r :source $MYVIMRC<CR>
+nnoremap <Leader>R :source $MYVIMRC<CR>
+nnoremap <Leader>r :source ~/.vimrc<CR>
+" nnoremap <silent> <Leader>co :silent !(pwd<bar>pbcopy)<CR> 
+nnoremap  <Leader>co :!pwd<bar>pbcopy<CR> 
 
 
-" Tagbar mapping key to F8
+" Tagbar mapping key to F8 (tagbar activation)
 " This will one a side bar having all the functions and variables for the code 
 nmap <F8> :TagbarToggle<CR>
 
@@ -295,10 +334,21 @@ nmap <F8> :TagbarToggle<CR>
 " let g:indentLine_bgcolor_term = 202
 " let g:indentLine_bgcolor_gui = '#FF5F00'
 
+" Write all buffers before navigating from Vim to tmux pane
+let g:tmux_navigator_save_on_switch = 2
 
 " Kite supported languages
 " Python, JavaScript, Go
 let g:kite_supported_languages = ['python', 'javascript', 'go']
+" This code below will disable kite and use the lsp or coc instead
+" let g:kite_completions=0
+
+" To make the pydocstring format confirms to the numpy
+let g:pydocstring_formatter = 'numpy'
 
 
+" let g:vimspector_enable_mappings = 'HUMAN'
+
+
+" set rtp+=/usr/local/opt/fzf
 
