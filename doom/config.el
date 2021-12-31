@@ -122,7 +122,7 @@
   (kbd "k") 'peep-dired-prev-file)
 (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 
-
+(setq large-file-warning-threshold nil)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

@@ -16,6 +16,7 @@
 (package! ox-pandoc)
 (package! orgtbl-aggregate)
 (package! company-anaconda)
+(package! dired-rsync)
 (package! peep-dired)
 
 ;; To install a package directly from a remote git repo, you must specify a
