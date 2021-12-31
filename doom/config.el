@@ -6,39 +6,11 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "Mohammed"
-      user-mail-address "mohalbatati@icloud.com")
+(setq user-full-name "John Doe"
+      user-mail-address "john@doe.com")
 
-;; change the meta key to to option in the mac
-(cond (IS-MAC
-       (setq mac-command-modifier      'meta
-             mac-option-modifier       'alt
-             mac-right-option-modifier 'alt)))
-
-(after! org
-  (setq org-log-into-drawer t)
-  ;; write the time of the compltion when hitting on done
-  (setq org-log-done 'time))
-
-;; Adding pretty org-bullets as per the link  http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/
-(setq
-    org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
-
-
-;; OrgMode bullets set up
-;; (use-package org-bullets
-;;   :ensure t
-;;   :config
-;;   (add-hook 'org-mode-h exposes five (optional) variables for controlling fonts in Doom. Here
+;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
-;;
-
-(require 'org-tempo)
-(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-(add-to-list 'org-structure-template-alist '("el" . "src emacs-lips"))
-(add-to-list 'org-structure-template-alist '("py" . "src python"))
-
-;;
 ;;
 ;; + `doom-font'
 ;; + `doom-variable-pitch-font'
@@ -55,44 +27,102 @@
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
 (setq doom-theme 'doom-gruvbox)
-;; (setq doom-theme 'spacemacs-light)
-
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
+(after! org
+  (setq org-log-into-drawer t
+        org-log-done 'time
+        org-ellipsis " ↴↴↴"
+        org-log-done 'note
+        org-hide-emphasis-markers t
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-timestamp-if-done t
+        org-agenda-skip-deadline-if-done t))
 
-(use-package pdf-view
-  :hook (pdf-tools-enabled . pdf-view-midnight-minor-mode)
-  :hook (pdf-tools-enabled . hide-mode-line-mode)
-  :config
-  (setq pdf-view-midnight-colors '("#ABB2BF" . "#282C35")))
+(setq org-mobile-directory "~/Library/Mobile Documents/iCloud~com~mobileorg~mobileorg/Documents")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-;; (setq display-line-numbers-type t)
 (setq display-line-numbers-type 'relative)
 
-;; This code below to try and remove the whole line green
-(custom-set-faces
-  ;; '(default ((t (:background "#000000"))))
-  '(hl-line ((t (:background "#000000")))))
-
-(setq ispell-aspell-dict-dir "/usr/local/bin/ispell")
-(setq ispell-dictionary "english")
-
-;; Disable exit confirmation / no more asking for permittion to exit the program
-(setq confirm-kill-emacs nil)
-
-(use-package pdf-tools
-  :commands (pdf-view-mode pdf-tools-installer-os)
-  :config
-  (pdf-tools-install))
+(global-set-key (kbd "C-s")      'save-buffer)
 
 ;; Configuring the journalling table
 (setq org-journal-date-prefix "#+TITLE:"
      org-journal-time-prefix "* "
      org-journal-date-format "%a, %Y-%m-%d"
      org-journal-file-format "%Y-%m-%d.org")
+
+;; Adding pretty org-bullets as per the link  http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/
+(setq
+    org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+
+;; start using company
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+(set-company-backend! '(company-files company-dabbrev compnay-tabnine))
+
+
+;; (use-package pdf-view
+;;   :hook (pdf-tools-enabled . pdf-view-midnight-minor-mode)
+;;   :hook (pdf-tools-enabled . hide-mode-line-mode)
+;;   :config
+;;   (setq pdf-view-midnight-colors '("#ABB2BF" . "#282C35")))
+
+(use-package pdf-tools
+  :commands (pdf-view-mode pdf-tools-installer-os)
+  :config
+  (pdf-tools-install))
+
+(setq ispell-aspell-dict-dir "/usr/local/bin/ispell")
+(setq ispell-dictionary "english")
+
+(map! :leader
+      (:desc "trucate lines"
+       "t t" #'toggle-truncate-lines)
+      (:desc "export table csv"
+       "t e" 'org-table-export)
+      (:desc "toggle column width"
+       "t -" #'org-table-toggle-column-width))
+
+;; These key bindings will casue emcas to act as vim with the letters of jd and ja etc
+(setq key-chord-two-keys-delay 0.25)
+(key-chord-define evil-insert-state-map "jd" 'evil-delete-backward-word)
+(key-chord-define evil-insert-state-map "ja" 'evil-end-of-line-or-visual-line)
+(key-chord-define evil-insert-state-map "ji" 'evil-beginning-of-line)
+(key-chord-define evil-insert-state-map "jw" 'evil-forward-WORD-end)
+(key-chord-define evil-insert-state-map "jb" 'evil-backward-WORD-end)
+(key-chord-mode 1)
+
+
+(use-package python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+
+;; (setq python-black-command "black-macchiato")
+;; (use-package lsp-python-ms
+;;   :ensure t
+;;   :init (setq lsp-python-ms-auto-install-server t)
+;;   :hook (python-mode . (lambda ()
+;;                           (require 'lsp-python-ms)
+;;                           (lsp))))  ; or lsp-deferred
+
+;; Standard Jedi.el settindg
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+;; (add-hook 'python-mode 'anaconda-mode)
+
+
+;; peep-dired
+(evil-define-key 'normal peep-dired-mode-map
+  (kbd "j") 'peep-dired-next-file
+  (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+
+
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

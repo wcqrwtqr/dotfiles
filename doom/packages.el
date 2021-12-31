@@ -8,7 +8,15 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
-;; (package! spacemacs-theme)
+(package! olivetti)
+(package! use-package-chords)
+(package! python-black)
+(package! lsp-jedi)
+(package! jedi)
+(package! ox-pandoc)
+(package! orgtbl-aggregate)
+(package! company-anaconda)
+(package! peep-dired)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
@@ -41,7 +49,6 @@
 ;; Use `:pin' to specify a particular commit to install.
 ;(package! builtin-package :pin "1a2b3c4d5e")
 
-;; (package! org-bullets)
 
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
