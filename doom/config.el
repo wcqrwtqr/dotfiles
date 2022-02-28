@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Mohammed S. Albatati"
+      user-mail-address "mohammed.albatati@oilserv.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -45,9 +45,9 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type 'nil)
+(setq olivetti-body-width .67)
 
-(global-set-key (kbd "C-s")      'save-buffer)
 
 ;; Configuring the journalling table
 (setq org-journal-date-prefix "#+TITLE:"
@@ -61,9 +61,9 @@
 
 ;; start using company
 (require 'company)
+(require 'company-tabnine)
 (add-hook 'after-init-hook 'global-company-mode)
 (set-company-backend! '(company-files company-dabbrev compnay-tabnine))
-
 
 ;; (use-package pdf-view
 ;;   :hook (pdf-tools-enabled . pdf-view-midnight-minor-mode)
@@ -96,26 +96,15 @@
 (key-chord-define evil-insert-state-map "jb" 'evil-backward-WORD-end)
 (key-chord-mode 1)
 
+(add-hook 'python-mode-hook 'eglot-ensure)
 
-(use-package python-black
-  :demand t
-  :after python
-  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+(use-package highlight-symbol
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook 'highlight-symbol-mode))
 
-;; (setq python-black-command "black-macchiato")
-;; (use-package lsp-python-ms
-;;   :ensure t
-;;   :init (setq lsp-python-ms-auto-install-server t)
-;;   :hook (python-mode . (lambda ()
-;;                           (require 'lsp-python-ms)
-;;                           (lsp))))  ; or lsp-deferred
-
-;; Standard Jedi.el settindg
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-;; (add-hook 'python-mode 'anaconda-mode)
-
-
+;; Dired configurations
+;; =================================
 ;; peep-dired
 (evil-define-key 'normal peep-dired-mode-map
   (kbd "j") 'peep-dired-next-file
@@ -123,6 +112,48 @@
 (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 
 (setq large-file-warning-threshold nil)
+
+;; dired-narrow setup
+(use-package dired-narrow
+  :ensure t
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow)))
+
+;; This is the best code ever in dired to avoid navigating to the required folder ivy makes it available after hitting SPC f d
+;; ivy-dired-history
+(with-eval-after-load 'dired
+  (require 'ivy-dired-history)
+  (define-key dired-mode-map "," 'dired))
+
+;; map the keys to activate peep and narrwo
+
+(map! :leader
+       (:after dired
+        (:map dired-mode-map
+         :desc "peep mode" "d p" #'peep-dired
+         :desc "narrow dired" "d n" #'dired-narrow)))
+
+;; undo tree
+(require 'undo-tree)
+(global-undo-tree-mode)
+
+;; (require 'ox-reveal)
+;; (setq org-reveal-root "file:///Users/mohammedalbatati/org/reveal.js")
+;;
+
+;; Custom change the block
+;; (custom-set-faces
+;;  '(org-block-begin-line
+;;    ((t (:underline "#A7A6AA" :foreground "#ffffff" :background "#1f1f1f" :extend nil))))
+;;  '(org-block
+;;    ((t (:background "#1f1f1f" :extend nil))))
+;;  '(org-block-end-line
+;;    ((t (:overlin  "A7A6AA" :foreground "#404040" :background "#1f1f1f" :extend nil)))))
+
+;; تغيير الخط المسؤول عن عرض النصوص العربية فقط
+(set-fontset-font "fontset-default"
+         'arabic
+         (font-spec :family "Kawkab Mono" :size 30))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

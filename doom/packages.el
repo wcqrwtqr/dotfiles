@@ -10,7 +10,6 @@
 ;(package! some-package)
 (package! olivetti)
 (package! use-package-chords)
-(package! python-black)
 (package! lsp-jedi)
 (package! jedi)
 (package! ox-pandoc)
@@ -18,6 +17,18 @@
 (package! company-anaconda)
 (package! dired-rsync)
 (package! peep-dired)
+(package! ivy-dired-history) ;; best thing happened to me ( use SPC f d ) and all folders you went to will be available to search easliy
+(package! dired-open)
+(package! company-tabnine)
+(package! undo-tree)
+(package! speed-type)
+(package! beacon)
+(package! eglot)
+(package! highlight-symbol)
+(package! rainbow-mode)
+(package! django-mode)
+(package! ac-emmet)
+(package! tramp)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
