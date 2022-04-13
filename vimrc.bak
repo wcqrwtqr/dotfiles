@@ -188,8 +188,12 @@ nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 " Below are the maps for the NERDTree quick open using ctl+o
 map <C-o> :NERDTreeToggle<CR>
 " Below is the fzf to search for files inside the vim
-map ; :Files<CR>
-map ± :Ag<CR> 
+map <Leader>ff :Files<CR>
+map <Leader>sf :Ag<CR>
+map <Leader>ss :BLines<CR>
+map <Leader>bb :Buffers<CR>
+"map ; :Files<CR>
+"map ± :Ag<CR>
 " map ' :BLines<CR>
 " map \ :Buffers<CR>
 " The above code is for the Silver search which can search the whole directory for any word, no need to use grep anymore
@@ -336,6 +340,17 @@ nmap <F8> :TagbarToggle<CR>
 
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 2
+
+" vv to generate new vertical split
+nnoremap <silent> <Leader>wv <C-w>v
+" ss to generate new horizontal split
+nnoremap <silent> <Leader>ws <C-w>s
+nnoremap <silent> <Leader>wc <C-w>c
+nnoremap <silent> <Leader>ww <C-w>w
+nnoremap <silent> <Leader>wj <C-w>j
+nnoremap <silent> <Leader>wk <C-w>k
+nnoremap <silent> <Leader>wl <C-w>l
+nnoremap <silent> <Leader>wh <C-w>h
 
 " Kite supported languages
 " Python, JavaScript, Go
