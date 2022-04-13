@@ -11,7 +11,7 @@
 (package! olivetti)
 (package! use-package-chords)
 (package! lsp-jedi)
-(package! jedi)
+;; (package! jedi)
 (package! ox-pandoc)
 (package! orgtbl-aggregate)
 (package! company-anaconda)
@@ -22,13 +22,28 @@
 (package! company-tabnine)
 (package! undo-tree)
 (package! speed-type)
+(package! pdf-tools)
 (package! beacon)
-(package! eglot)
+;; (package! eglot)
 (package! highlight-symbol)
 (package! rainbow-mode)
 (package! django-mode)
+(package! marginalia)
+(package! embark-consult)
+(package! org-download)
+(package! org-ros)
+(package! ox-reveal)
+(package! json-mode)
+(package! dap-mode)
+(package! react-snippets)
+(package! js-react-redux-yasnippets)
 (package! ac-emmet)
-(package! tramp)
+;; (package! emmet)
+
+
+
+(package! 0x0
+  :recipe (:host gitlab :repo "willvaughn/emacs-0x0"))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

@@ -26,8 +26,11 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-one)
 
+;; ===============================================================
+;; ==================== Org mode ====================================
+;; ===============================================================
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
@@ -59,17 +62,18 @@
 (setq
     org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
 
+;; ===============================================================
+;; ==================== Company ====================================
+;; ===============================================================
 ;; start using company
 (require 'company)
 (require 'company-tabnine)
 (add-hook 'after-init-hook 'global-company-mode)
-(set-company-backend! '(company-files company-dabbrev compnay-tabnine))
+(set-company-backend! '(company-files company-dabbrev compnay-tabnine company-capf company-yasnippet))
 
-;; (use-package pdf-view
-;;   :hook (pdf-tools-enabled . pdf-view-midnight-minor-mode)
-;;   :hook (pdf-tools-enabled . hide-mode-line-mode)
-;;   :config
-;;   (setq pdf-view-midnight-colors '("#ABB2BF" . "#282C35")))
+;; ===============================================================
+;; ==================== Dired ====================================
+;; ===============================================================
 
 (use-package pdf-tools
   :commands (pdf-view-mode pdf-tools-installer-os)
@@ -79,11 +83,14 @@
 (setq ispell-aspell-dict-dir "/usr/local/bin/ispell")
 (setq ispell-dictionary "english")
 
+;; short cuts for truncate line, export csv, org table etc
 (map! :leader
       (:desc "trucate lines"
        "t t" #'toggle-truncate-lines)
       (:desc "export table csv"
        "t e" 'org-table-export)
+      (:desc "act window select"
+       "e w" #'ace-select-window)
       (:desc "toggle column width"
        "t -" #'org-table-toggle-column-width))
 
@@ -96,13 +103,28 @@
 (key-chord-define evil-insert-state-map "jb" 'evil-backward-WORD-end)
 (key-chord-mode 1)
 
-(add-hook 'python-mode-hook 'eglot-ensure)
+;; (add-hook 'python-mode-hook 'eglot-ensure)
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          ;; (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+(add-hook 'python-mode-hook #'lsp)
 
 (use-package highlight-symbol
   :ensure t
   :init
   (add-hook 'prog-mode-hook 'highlight-symbol-mode))
 
+
+(require 'org-download)
+;; Drag-and-drop to `dired`
+(add-hook 'dired-mode-hook 'org-download-enable)
+(setq-default org-download-image-dir "~/org/download-org")
+
+;; ===============================================================
+;; ==================== Dired ====================================
+;; ===============================================================
 ;; Dired configurations
 ;; =================================
 ;; peep-dired
@@ -126,20 +148,96 @@
   (define-key dired-mode-map "," 'dired))
 
 ;; map the keys to activate peep and narrwo
-
 (map! :leader
        (:after dired
         (:map dired-mode-map
          :desc "peep mode" "d p" #'peep-dired
-         :desc "narrow dired" "d n" #'dired-narrow)))
+         :desc "narrow dired" "d n" #'dired-narrow
+         :desc "image dired" "d i" #'image-dired
+         :desc "open file external" "f x" #'consult-file-externally)))
 
 ;; undo tree
 (require 'undo-tree)
 (global-undo-tree-mode)
 
-;; (require 'ox-reveal)
+;; 0x0
+(use-package! 0x0)
+
+;; ===============================================================
+;; ==================== Hydra ====================================
+;; ===============================================================
+;; Use F2 to activate Hydra to swab and move workspaces easly
+(defhydra hydra-zoom (global-map "<f2>")
+  "workspace"
+  ("H" +workspace/swap-left "workspace left")
+  ("L" +workspace/swap-right "workspace right")
+  ("h" +workspace/switch-left "switch left")
+  ("l" +workspace/switch-right "switch right")
+  ("d" +workspace/delete "delete")
+  ("n" +workspace/new "new")
+  ("r" +workspace/rename "rename")
+  ("o" olivetti-mode "olivetti")
+  ("[" olivetti-shrink "Shriknk")
+  ("]" olivetti-expand "expand"))
+
+;; Use Hydra to have a way to navigate to windows and swab them easly Use F5 to start the action
+(defhydra hydra-window-move (global-map "<f5>")
+  "window-move"
+  ("h" evil-window-left "left")
+  ("l" evil-window-right "right")
+  ("k" evil-window-up "up")
+  ("j" evil-window-down "down")
+  ("S" window-swap-states "swap")
+  ("A" ace-swap-window "ace-swap")
+  ("v" evil-window-vsplit "vsplit")
+  ("s" evil-window-split "hsplit")
+  ("d" +workspace/close-window-or-workspace "close")
+  ("=" text-scale-increase "in")
+  ("-" text-scale-decrease "out")
+  ("H" evil-window-decrease-width "- width")
+  ("L" evil-window-increase-width "+ width")
+  ("K" evil-window-increase-height "+ height")
+  ("o" olivetti-mode "olivetti")
+  ("[" olivetti-shrink "Shriknk")
+  ("]" olivetti-expand "expand"))
+
+;; (Require 'ox-reveal)
 ;; (setq org-reveal-root "file:///Users/mohammedalbatati/org/reveal.js")
-;;
+
+(use-package marginalia
+  :ensure t
+  :config
+  (marginalia-mode))
+
+;; This enable screen shot to be loaded in emcas org-mode
+(require 'org-ros)
+
+
+;; (use-package embark
+;;   :ensure t
+;;   :bind
+;;   (("C-." . embark-act)         ;; pick some comfortable binding
+;;    ("C-;" . embark-dwim)        ;; good alternative: M-.
+;;    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+;;   :init
+;;   ;; Optionally replace the key help with a completing-read interface
+;;   (setq prefix-help-command #'embark-prefix-help-command)
+;;   :config
+;;   ;; Hide the mode line of the Embark live/completions buffers
+;;   (add-to-list 'display-buffer-alist
+;;                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+;;                  nil
+;;                  (window-parameters (mode-line-format . none)))))
+
+;; ;; Consult users will also want the embark-consult package.
+;; (use-package embark-consult
+;;   :ensure t
+;;   :after (embark consult)
+;;   :demand t ; only necessary if you have the hook below
+;;   ;; if you want to have consult previews as you move around an
+;;   ;; auto-updating embark collect buffer
+;;   :hook
+;;   (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; Custom change the block
 ;; (custom-set-faces
@@ -154,6 +252,56 @@
 (set-fontset-font "fontset-default"
          'arabic
          (font-spec :family "Kawkab Mono" :size 30))
+
+
+;; React set up for emcas
+
+;; (package-initialize)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+;; (setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs company avy which-key dap-mode json-mode))
+;; (when (cl-find-if-not #'package-installed-p package-selected-packages)
+  ;; (package-refresh-contents)
+  ;; (mapc #'package-install package-selected-packages))
+(add-hook 'prog-mode-hook #'lsp)
+(add-hook 'rjsx-mode-hook #'lsp)
+(add-hook 'rjsx-mode-hook #'emmet-mode)
+(add-hook 'js-mode-hook #'lsp)
+(add-hook 'js-mode-hook #'emmet-mode)
+;; (add-hook 'python-mode-hook 'eglot-ensure)
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      company-idle-delay 0.0
+      company-minimum-prefix-length 1
+      create-lockfiles nil) ;; lock files will kill `npm start'
+(with-eval-after-load 'lsp-mode
+  (require 'dap-chrome)
+  ;; (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  ;; (add-hook 'lsp-mode-hook #'lsp-mode 'lsp-ui-doc-mode 'company-auto-complete)
+  ;; (add-hook 'lsp-mode-hook #'lsp-ui-doc-mode)
+  ;; (add-hook 'lsp-mode-hook #'lsp-mode)
+  ;; (add-hook 'lsp-mode-hook 'company-auto-complete)
+  (yas-global-mode))
+;; lsp-mode
+;; lsp-ui-doc-mode
+;; lsp-ui-mode
+;; lsp-completion-mode
+;; +company/toggle-auto-completion
+
+;; (defun my/increment-numbers()
+  ;; "This function will increment numnbers"
+  ;; (interactive)
+  ;; (kill-rectangle (point-max) (point-min)))
+  ;; (universal-argument (rectangle-number-lines (point-max) (default-value) ("%1d"))))
+
+
+
+
+
+
+
+
+
+;; (doom-big-font-mode t)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
