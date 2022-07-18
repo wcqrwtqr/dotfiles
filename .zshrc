@@ -153,6 +153,9 @@ alias zshrc="nvim ~/.zshrc"
 alias vifmrc="nvim ~/.config/vifm/vifmrc"
 alias cheat="curl cht.sh"
 alias sot="tmux source ~/.tmux.conf"
+alias p3="python3"
+alias yd="youtube-dl"
+alias emacs="open -a emacs"
 
 # Make a quick github comit and push to github with small letters
 function acp(){
@@ -199,6 +202,17 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 export PATH="/Users/mohammedalbatati/Library/Python/3.9/bin:$PATH"
+# go path
+# export PATH="$HOME/$(go env GOPATH)/bin:$PATH"
+# export PATH="$HOME/$(go env GOPATH):$PATH"
+# export PATH="$HOME/go/bin:$PATH"
+
+# export GOROOT=/usr/local/go
+# export GOPATH=~/Development/gocode
+export PATH=$PATH:$GOROOT/bin
+export PATH=$PATH:$GOPATH/bin
+
+
 
 # Below is the code to add vim to the terminal if you are tired then remove it
 # bindkey -v
