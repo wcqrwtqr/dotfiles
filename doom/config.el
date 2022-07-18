@@ -7,7 +7,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Mohammed S. Albatati"
-      user-mail-address "mohammed.albatati@oilserv.com")
+      user-mail-address "mohalbatati@icloud.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -38,7 +38,7 @@
   (setq org-log-into-drawer t
         org-log-done 'time
         org-ellipsis " ↴↴↴"
-        org-log-done 'note
+        ;; org-log-done 'note
         org-hide-emphasis-markers t
         org-agenda-skip-scheduled-if-done t
         org-agenda-skip-timestamp-if-done t
@@ -48,9 +48,9 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
+(require 'olivetti)
 (setq display-line-numbers-type 'nil)
 (setq olivetti-body-width .67)
-
 
 ;; Configuring the journalling table
 (setq org-journal-date-prefix "#+TITLE:"
@@ -87,6 +87,8 @@
 (map! :leader
       (:desc "trucate lines"
        "t t" #'toggle-truncate-lines)
+      (:desc "toggle tmux pane"
+       "t y" #'tmux-pane-mode)
       (:desc "export table csv"
        "t e" 'org-table-export)
       (:desc "act window select"
@@ -105,14 +107,14 @@
 
 ;; (add-hook 'python-mode-hook 'eglot-ensure)
 (use-package lsp-pyright
-  :ensure t
+  ;; :ensure t
   :hook (python-mode . (lambda ()
                           ;; (require 'lsp-pyright)
                           (lsp))))  ; or lsp-deferred
 (add-hook 'python-mode-hook #'lsp)
 
 (use-package highlight-symbol
-  :ensure t
+  ;; :ensure t
   :init
   (add-hook 'prog-mode-hook 'highlight-symbol-mode))
 
@@ -137,7 +139,7 @@
 
 ;; dired-narrow setup
 (use-package dired-narrow
-  :ensure t
+  ;; :ensure t
   :bind (:map dired-mode-map
               ("/" . dired-narrow)))
 
@@ -154,6 +156,8 @@
          :desc "peep mode" "d p" #'peep-dired
          :desc "narrow dired" "d n" #'dired-narrow
          :desc "image dired" "d i" #'image-dired
+         :desc "Zoom window" "z z" #'zoom-window-zoom
+         :desc "Zoom window next" "z x" #'zoom-window-next
          :desc "open file external" "f x" #'consult-file-externally)))
 
 ;; undo tree
@@ -183,10 +187,6 @@
 ;; Use Hydra to have a way to navigate to windows and swab them easly Use F5 to start the action
 (defhydra hydra-window-move (global-map "<f5>")
   "window-move"
-  ("h" evil-window-left "left")
-  ("l" evil-window-right "right")
-  ("k" evil-window-up "up")
-  ("j" evil-window-down "down")
   ("S" window-swap-states "swap")
   ("A" ace-swap-window "ace-swap")
   ("v" evil-window-vsplit "vsplit")
@@ -205,12 +205,46 @@
 ;; (setq org-reveal-root "file:///Users/mohammedalbatati/org/reveal.js")
 
 (use-package marginalia
-  :ensure t
+  ;; :ensure t
   :config
   (marginalia-mode))
 
 ;; This enable screen shot to be loaded in emcas org-mode
 (require 'org-ros)
+
+
+;; (require 'zoom-window)
+(custom-set-variables
+ '(zoom-window-mode-line-color "DarkGreen"))
+
+
+;; (require 'elfeed-goodies)
+;; (elfeed-goodies/setup)
+;; (setq elfeed-goodies/entry-pane-size 0.5)
+;; ;; elfeed setup
+;; (setq elfeed-feeds
+;;       '("https://www.reddit.com/r/linux.rss"
+;;         "https://www.reddit.com/r/emcas.rss"))
+
+;; (use-package org-brain
+;;   :init
+;;   (setq org-brain-path "~/org-brain")
+;;   ;; For Evil users
+;;   (with-eval-after-load 'evil
+;;     (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+;;   :config
+;;   (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
+;;   (setq org-id-track-globally t)
+;;   (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+;;   (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+;;   (push '("b" "Brain" plain (function org-brain-goto-end)
+;;           "* %i%?" :empty-lines 1)
+;;         org-capture-templates)
+;;   (setq org-brain-visualize-default-choices 'all)
+;;   (setq org-brain-title-max-length 12)
+;;   (setq org-brain-include-file-entries nil
+;;         org-brain-file-entries-use-title nil))
+
 
 
 ;; (use-package embark
@@ -249,9 +283,9 @@
 ;;    ((t (:overlin  "A7A6AA" :foreground "#404040" :background "#1f1f1f" :extend nil)))))
 
 ;; تغيير الخط المسؤول عن عرض النصوص العربية فقط
-(set-fontset-font "fontset-default"
-         'arabic
-         (font-spec :family "Kawkab Mono" :size 30))
+;; (set-fontset-font "fontset-default"
+;;          'arabic
+;;          (font-spec :family "Kawkab Mono" :size 30))
 
 
 ;; React set up for emcas
@@ -262,12 +296,17 @@
 ;; (when (cl-find-if-not #'package-installed-p package-selected-packages)
   ;; (package-refresh-contents)
   ;; (mapc #'package-install package-selected-packages))
+
+
+;; Adding lsp and emmet to programming hooks
 (add-hook 'prog-mode-hook #'lsp)
 (add-hook 'rjsx-mode-hook #'lsp)
 (add-hook 'rjsx-mode-hook #'emmet-mode)
 (add-hook 'js-mode-hook #'lsp)
 (add-hook 'js-mode-hook #'emmet-mode)
+(add-hook 'html-mode-hook #'emmet-mode)
 ;; (add-hook 'python-mode-hook 'eglot-ensure)
+
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
       company-idle-delay 0.0
@@ -275,12 +314,13 @@
       create-lockfiles nil) ;; lock files will kill `npm start'
 (with-eval-after-load 'lsp-mode
   (require 'dap-chrome)
+  (yas-global-mode))
+
   ;; (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   ;; (add-hook 'lsp-mode-hook #'lsp-mode 'lsp-ui-doc-mode 'company-auto-complete)
   ;; (add-hook 'lsp-mode-hook #'lsp-ui-doc-mode)
   ;; (add-hook 'lsp-mode-hook #'lsp-mode)
   ;; (add-hook 'lsp-mode-hook 'company-auto-complete)
-  (yas-global-mode))
 ;; lsp-mode
 ;; lsp-ui-doc-mode
 ;; lsp-ui-mode
@@ -294,14 +334,37 @@
   ;; (universal-argument (rectangle-number-lines (point-max) (default-value) ("%1d"))))
 
 
+(require 'lsp-mode)
+(add-hook 'go-mode-hook #'lsp-deferred)
 
+;; (add-hook 'go-mode-hook #'gofmt-before-save)
 
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+;; (defun lsp-go-install-save-hooks ()
+;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
+;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
+;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
+;; (use-package lsp-mode)
+;; :commands (lsp lsp-deferred)
+;; :init
+;; (setq lsp-keymap-prefix "C-c l")
+;; :config
+;; (lsp-enable-which-key-integration t)
+;; :hook
+;; ((go-mode) . lsp)
 
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
+  (setq lsp-ui-doc-enable t))
 
-
+;; run gofmt before saving the file
+;; (add-hook 'go-mode-hook 'gofmt-before-save)
 
 ;; (doom-big-font-mode t)
+
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
