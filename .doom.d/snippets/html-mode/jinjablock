@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: jinjablock
+# key: %%
+# --
+{% $1 %}

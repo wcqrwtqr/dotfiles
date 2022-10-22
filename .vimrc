@@ -72,6 +72,7 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'heavenshell/vim-pydocstring', { 'do': 'make install', 'for': 'python' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 " Below is for the vim-easy-align
@@ -352,6 +353,8 @@ let g:pydocstring_formatter = 'numpy'
 
 " let g:vimspector_enable_mappings = 'HUMAN'
 
+let g:ale_linters = { 'go': ['gopls'], }
 
-" set rtp+=/usr/local/opt/fzf
+
+set rtp+=/usr/local/opt/fzf
 

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name:Django_url
+# key: <u
+# --
+{%url '$0'%}

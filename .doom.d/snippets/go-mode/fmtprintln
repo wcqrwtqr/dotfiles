@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name:fmtprintln
+# key:fmtn
+# --
+fmt.Println($0)

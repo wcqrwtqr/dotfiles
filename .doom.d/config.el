@@ -27,7 +27,6 @@
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
 (setq doom-theme 'doom-one)
-
 ;; ===============================================================
 ;; ==================== Org mode ====================================
 ;; ===============================================================
@@ -83,33 +82,52 @@
 (setq ispell-aspell-dict-dir "/usr/local/bin/ispell")
 (setq ispell-dictionary "english")
 
+
+
 ;; short cuts for truncate line, export csv, org table etc
 (map! :leader
       (:desc "trucate lines"
        "t t" #'toggle-truncate-lines)
       (:desc "toggle tmux pane"
        "t y" #'tmux-pane-mode)
+      (:desc "avy copy line"
+       "y y" #'avy-copy-line)
+      (:desc "avy copy region"
+       "y r" #'avy-copy-region)
+      (:desc "rotat image"
+       "i r" #'image-rotate)
       (:desc "export table csv"
-       "t e" 'org-table-export)
+       "t e" #'org-table-export)
       (:desc "act window select"
        "e w" #'ace-select-window)
+      (:desc "Zoom window"
+       "z z" #'zoom-window-zoom)
+      (:desc "Zoom window"
+       "z n" #'zoom-window-next)
       (:desc "toggle column width"
        "t -" #'org-table-toggle-column-width))
 
-;; These key bindings will casue emcas to act as vim with the letters of jd and ja etc
 (setq key-chord-two-keys-delay 0.25)
+
+;; All below keycords are useful for emacs in evil mode
 (key-chord-define evil-insert-state-map "jd" 'evil-delete-backward-word)
+;; While in insert mode and made a mistake while typing simply hit the keycords jd and it will delete the full so you can type it again correctly
+
 (key-chord-define evil-insert-state-map "ja" 'evil-end-of-line-or-visual-line)
+;; When you go back to the begining or middle of line and modify a word and you want to go to the end of the line to continue typing simply hit ja and the curser will go to the end of the line while in insert mode
+
 (key-chord-define evil-insert-state-map "ji" 'evil-beginning-of-line)
-(key-chord-define evil-insert-state-map "jw" 'evil-forward-WORD-end)
-(key-chord-define evil-insert-state-map "jb" 'evil-backward-WORD-end)
+;; While typing and you want to type something at the beginig of the line line like a heading number etc, simply while insert mode hit ji and the curser will go to the begining of the line and once finished hit ja and the curser will go back to the end of the line and continue typing
+
+(key-chord-define evil-insert-state-map "jw" 'evil-forward-word-end)
+;; While in insert mode and you want to move one word forward simply hit hw without exiting insert mode and the curser will move one word like when you are in command mode
+
 (key-chord-mode 1)
 
 ;; (add-hook 'python-mode-hook 'eglot-ensure)
 (use-package lsp-pyright
   ;; :ensure t
   :hook (python-mode . (lambda ()
-                          ;; (require 'lsp-pyright)
                           (lsp))))  ; or lsp-deferred
 (add-hook 'python-mode-hook #'lsp)
 
@@ -118,9 +136,9 @@
   :init
   (add-hook 'prog-mode-hook 'highlight-symbol-mode))
 
-
 (require 'org-download)
 ;; Drag-and-drop to `dired`
+
 (add-hook 'dired-mode-hook 'org-download-enable)
 (setq-default org-download-image-dir "~/org/download-org")
 
@@ -156,8 +174,8 @@
          :desc "peep mode" "d p" #'peep-dired
          :desc "narrow dired" "d n" #'dired-narrow
          :desc "image dired" "d i" #'image-dired
-         :desc "Zoom window" "z z" #'zoom-window-zoom
-         :desc "Zoom window next" "z x" #'zoom-window-next
+         ;; :desc "Zoom window" "z z" #'zoom-window-zoom
+         ;; :desc "Zoom window next" "z x" #'zoom-window-next
          :desc "open file external" "f x" #'consult-file-externally)))
 
 ;; undo tree
@@ -313,14 +331,13 @@
       company-minimum-prefix-length 1
       create-lockfiles nil) ;; lock files will kill `npm start'
 (with-eval-after-load 'lsp-mode
-  (require 'dap-chrome)
   (yas-global-mode))
 
-  ;; (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  ;; (add-hook 'lsp-mode-hook #'lsp-mode 'lsp-ui-doc-mode 'company-auto-complete)
-  ;; (add-hook 'lsp-mode-hook #'lsp-ui-doc-mode)
-  ;; (add-hook 'lsp-mode-hook #'lsp-mode)
-  ;; (add-hook 'lsp-mode-hook 'company-auto-complete)
+;; (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+;; (add-hook 'lsp-mode-hook #'lsp-mode 'lsp-ui-doc-mode 'company-auto-complete)
+;; (add-hook 'lsp-mode-hook #'lsp-ui-doc-mode)
+;; (add-hook 'lsp-mode-hook #'lsp-mode)
+;; (add-hook 'lsp-mode-hook 'company-auto-complete)
 ;; lsp-mode
 ;; lsp-ui-doc-mode
 ;; lsp-ui-mode
@@ -338,13 +355,6 @@
 (add-hook 'go-mode-hook #'lsp-deferred)
 
 ;; (add-hook 'go-mode-hook #'gofmt-before-save)
-
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-;; (defun lsp-go-install-save-hooks ()
-;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 ;; (use-package lsp-mode)
 ;; :commands (lsp lsp-deferred)

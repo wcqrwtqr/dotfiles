@@ -8,6 +8,8 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Set name of the theme to load --- if set to "random", it will
 
+# setopt notify
+
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
@@ -82,22 +84,23 @@ export FZF_BASE=/path/to/fzf/install/dir
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-git
-rsync
-zsh-interactive-cd
-fzf
-docker
-python
-macos
-brew
-cp
-zsh-autosuggestions
-z
-iterm2
-pip
-colored-man-pages
-copypath
-copyfile
+    git
+    rsync
+    zsh-interactive-cd
+    fzf
+    docker
+    python
+    macos
+    brew
+    cp
+    zsh-autosuggestions
+    # zsh-autocomplete #// Did not like what I though it will be
+    z
+    iterm2
+    pip
+    colored-man-pages
+    copypath
+    copyfile
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -134,13 +137,16 @@ export FZF_BASE=/path/to/fzf/install/dir
 # alias tmux="TERM=screen-256color-bce tmux"
 alias ls="exa"
 alias myip="curl http://ipecho.net/plain; echo"
+alias mylocalip="ifconfig | grep en0 -A 2 | grep 192"
 alias usage="du -h -dl"
 alias myrouter="ipconfig getoption en0 router"
 alias allip="arp -a" # get all the IP for other devices on the network
 alias mynet="ipconfig getpacket en0"
 alias dpsa="docker ps --all"
 alias dps="docker ps"
+alias drc="docker rm"
 alias dil="docker image list"
+alias dri="docker rmi"
 alias dsp="docker system prune"
 alias dcps="docker-compose ps"
 alias dcup="docker-compose up -d"
@@ -150,12 +156,22 @@ alias dci="docker-compose images"
 alias vimrc="nvim ~/.vimrc"
 alias nvimrc="nvim ~/.config/nvim/init.vim"
 alias zshrc="nvim ~/.zshrc"
-alias vifmrc="nvim ~/.config/vifm/vifmrc"
 alias cheat="curl cht.sh"
 alias sot="tmux source ~/.tmux.conf"
 alias p3="python3"
 alias yd="youtube-dl"
 alias emacs="open -a emacs"
+alias cat="bat"
+alias grep="rg"
+alias fzft="fzf-tmux -r 35%"
+alias docker_mpfmsite="docker run -p 8501:8501 mpfm:latest"
+alias dcup_mpfm="(cd ~/Anaconda\ Projects/Others/streamlit/MPFM-Upload-Streamlit ; dcup ; echo 'port 8501')"
+alias dcd_mpfm="(cd ~/Anaconda\ Projects/Others/streamlit/MPFM-Upload-Streamlit ; dcd)"
+alias docker_datasite="docker run -p 8888:8501 datasite:latest"
+alias docker_pivotsite="docker run -p 8080:8501 pivot:latest"
+alias dcup_equip="(cd ~/Anaconda\ Projects/NewCarrier/docker_equipment_site_django_2022 ; dcup ; echo 'port 8000 for site and port 5050 for pgadmin')"
+alias dcd_equip="(cd ~/Anaconda\ Projects/NewCarrier/docker_equipment_site_django_2022 ; dcd)"
+alias la="ls -al"
 
 # Make a quick github comit and push to github with small letters
 function acp(){
@@ -175,6 +191,17 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
+
+# configure key keybindings
+ bindkey '^L' forward-word          # ctl + l             # moves pointer forward a word
+ bindkey '^H' backward-word         # ctl + h             # moves pointer backward a word
+ # bindkey '^[[3~'   kill-whole-line       # delete                # deletes whole line
+ # bindkey '^[[1;5A' undo                  # ctrl + arrow up       # undo
+ # bindkey '^x'	     edit-command-line	    # ctrl + x              # edit line in Vi
+ # bindkey '^x^e'	   edit-command-line	    # ctrl + x + e          # same but more common keybind
+ # bindkey '^P'      toggle_prompt         # ctrl + p              # change prompt mode
+
+
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -222,4 +249,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # neofetch
-# pfetch
+pfetch
+iStats cpu
+cpu.sh
