@@ -40,6 +40,7 @@
 (package! treemacs-evil)
 (package! counsel-tramp)
 (package! docker)
+(package! ubuntu-theme)
 ;; (package! company-anaconda)
 ;; (package! django-mode)
 ;; (package! embark-consult)
@@ -50,6 +51,7 @@
 ;; (package! python-insert-docstring)
 ;; (package! python-docstring)
 ;; (package! emmet)
+(package! latex-preview-pane)
 (package! 0x0
   :recipe (:host gitlab :repo "willvaughn/emacs-0x0"))
 

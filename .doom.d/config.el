@@ -37,7 +37,7 @@
   (setq org-log-into-drawer t
         org-log-done 'time
         org-ellipsis " ↴↴↴"
-        ;; org-log-done 'note
+        org-log-done 'note
         org-hide-emphasis-markers t
         org-agenda-skip-scheduled-if-done t
         org-agenda-skip-timestamp-if-done t

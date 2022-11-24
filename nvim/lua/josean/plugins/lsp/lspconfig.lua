@@ -15,6 +15,11 @@ local typescript_setup, typescript = pcall(require, "typescript")
 if not typescript_setup then
 	return
 end
+-- import python plugin safely
+local python_setup, python = pcall(require, "python")
+if not python_setup then
+	return
+end
 
 local keymap = vim.keymap -- for conciseness
 
@@ -64,6 +69,14 @@ lspconfig["html"].setup({
 
 -- configure typescript server with plugin
 typescript.setup({
+	server = {
+		capabilities = capabilities,
+		on_attach = on_attach,
+	},
+})
+
+-- configure python server with plugin
+python.setup({
 	server = {
 		capabilities = capabilities,
 		on_attach = on_attach,
